@@ -5,3 +5,7 @@ dist-ssr
 *.tsbuildinfo
 .env
 .env.local
+
+# Obsidian vault
+**/.obsidian/
+.claude/memory/dashboard.md
