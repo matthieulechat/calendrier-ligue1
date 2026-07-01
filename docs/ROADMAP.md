@@ -21,10 +21,10 @@
 
 ## Phase 0 — Setup projet
 
-- [ ] Init Vite + React + TypeScript
-- [ ] Tailwind CSS v4
-- [ ] shadcn/ui (select, button, tooltip…)
-- [ ] Structure de dossiers
+- [x] Init Vite + React + TypeScript
+- [x] Tailwind CSS v4
+- [x] shadcn/ui (select, button, tooltip…)
+- [x] Structure de dossiers
 
 ```
 src/
@@ -163,4 +163,4 @@ public/
 
 ## En cours
 
-> _(rien pour l'instant — démarrage phase 0, toutes les décisions de conception ci-dessus sont figées)_
+> Phase 0 terminée (2026-07-01) — prochaine étape : Phase 1 (affiche statique Le Mans FC).
