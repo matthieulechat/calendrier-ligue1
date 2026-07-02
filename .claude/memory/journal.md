@@ -55,6 +55,25 @@ Au déclenchement de `/memory-close`, erreur de process repérée : la décision
 
 ---
 
+Finalisation de la Phase 1. Corrigé le débordement d'impression sur 2 pages (footer relégué sur une page quasi vide) : mesuré empiriquement via `agent-browser` que l'affiche faisait 307,12mm pour 297mm disponibles, resserré l'espacement de `MatchRow`/`MonthBlock` pour ramener le contenu réel à 286,4mm. Corrigé aussi le logo "Ligue 1 McDonald's" qui affichait une boîte blanche sur le header noir — un rectangle de fond plein caché dans le premier `<path>` du SVG, supprimé.
+
+Recherche de logos haute qualité sur `ligue1.com` à la demande de Baptiste : le site n'héberge que des icônes monochromes et des crests couleur limités à 128×128 via un CDN tiers, aucune amélioration par rapport aux PNG déjà en place. Décision de garder les logos actuels, et conversion du logo Le Mans FC (seul SVG restant) en PNG pour la cohérence du dossier assets, via un rendu canvas navigateur sans nouvelle dépendance.
+
+Vérification complète de la Phase 1 tâche par tâche : tout est fait sauf deux points structurellement bloqués (substitution des vraies données de calendrier, test d'impression physique multi-navigateurs/imprimantes par Baptiste). Vérification des conditions d'usage des logos/marques avant mise en public (Phase 7) : aucune autorisation trouvée nulle part (ni le repo source des logos, ni les CGU de la LFP), le blocage reste ouvert.
+
+Incident en session : le serveur `pnpm dev` de Baptiste a été tué par erreur en nettoyant des process de test par numéro de port, sans vérifier leur origine — corrigé immédiatement en relançant le serveur sur le port libéré.
+
+Passage du projet en mode mémoire multi-user (fichier `.claude/memory/.multi-user` déjà présent, détecté en cours de rituel de fermeture) : toutes les entrées créées dans cette session ont été renumérotées au format timestamp (`<PREFIX>-20260702232209-<N>`).
+
+**Entrées clés :**
+
+- [ZBLK-20260702232209-1](archive/blockers/ZBLK-20260702232209-1.md) — Impression sur 2 pages, affiche dépassait 297mm (résolu)
+- [LRN-20260702232209-2](learnings/LRN-20260702232209-2.md) — ligue1.com sans crests HD ; conversion SVG→PNG via canvas
+- [BLK-20260702232209-3](blockers/BLK-20260702232209-3.md) — Serveur dev de Baptiste tué par erreur (résolu)
+- [BLK-001](blockers/BLK-001.md) — Licences des logos clubs : vérifiées, aucune autorisation trouvée
+
+---
+
 Intégration de la Phase 3 (sélection club dynamique) et Phase 5 (saisie de scores) ensemble sur la branche `phase-2_3_5` (renommée depuis `phase-2`). Exploration a montré que la logique de filtrage/répartition par club (`getClubMatches`, `splitColumns`) était déjà générique depuis la Phase 1 — Phase 3 s'est réduite à brancher un `Select` shadcn dans `App.tsx`. Phase 5 a nécessité plus de travail : `src/lib/scores.ts` (fusion canonique/local), `src/hooks/useLocalScores.ts` (persistance), `ScoreBox` rendu interactif (inputs contrôlés + labels accessibles), toggle "Imprimer vide"/"Imprimer avec scores" piloté en CSS pur (`print:text-transparent`). Un agent de planification a validé/corrigé l'architecture proposée (clé `localStorage` non scopée par club, prop-drilling cohérent avec le pattern existant plutôt que Context/Zustand).
 
 Vérification bout en bout via agent-browser : score saisi persiste après rechargement et après changement de club (preuve que la clé n'est pas scopée par club), classe `print:text-transparent` bascule correctement selon le toggle, aucune erreur console. `pnpm lint` (via `rtk`) a planté avec une erreur JSON illisible — diagnostiqué comme un ESLint global (9.9.0) masquant le binaire local du projet (10.6.0) ; contourné en invoquant les binaires locaux directement, `tsc -b` et `vite build` passent à 0 erreur. `docs/ROADMAP.md` mis à jour : Phase 3 et Phase 5 cochées.
