@@ -1,0 +1,115 @@
+[
+  {
+    "id": "lemans",
+    "name": "Le Mans FC",
+    "shortName": "LE MANS",
+    "logo": "/logos/ligue1/lemans.svg",
+    "colors": {
+      "primary": "#a51820",
+      "secondary": "#6e0b12",
+      "accent": "#ffd84d"
+    }
+  },
+  {
+    "id": "brest",
+    "name": "Stade Brestois 29",
+    "shortName": "BREST",
+    "logo": "/logos/ligue1/brest.png"
+  },
+  {
+    "id": "rennes",
+    "name": "Stade Rennais FC",
+    "shortName": "RENNES",
+    "logo": "/logos/ligue1/rennes.png"
+  },
+  {
+    "id": "nice",
+    "name": "OGC Nice",
+    "shortName": "NICE",
+    "logo": "/logos/ligue1/nice.png"
+  },
+  {
+    "id": "lens",
+    "name": "RC Lens",
+    "shortName": "LENS",
+    "logo": "/logos/ligue1/lens.png"
+  },
+  {
+    "id": "lorient",
+    "name": "FC Lorient",
+    "shortName": "LORIENT",
+    "logo": "/logos/ligue1/lorient.png"
+  },
+  {
+    "id": "psg",
+    "name": "Paris Saint-Germain",
+    "shortName": "PARIS SG",
+    "logo": "/logos/ligue1/psg.png"
+  },
+  {
+    "id": "toulouse",
+    "name": "FC Toulouse",
+    "shortName": "TOULOUSE",
+    "logo": "/logos/ligue1/toulouse.png"
+  },
+  {
+    "id": "auxerre",
+    "name": "AJ Auxerre",
+    "shortName": "AUXERRE",
+    "logo": "/logos/ligue1/auxerre.png"
+  },
+  {
+    "id": "troyes",
+    "name": "ESTAC Troyes",
+    "shortName": "TROYES",
+    "logo": "/logos/ligue1/troyes.png"
+  },
+  {
+    "id": "monaco",
+    "name": "AS Monaco",
+    "shortName": "MONACO",
+    "logo": "/logos/ligue1/monaco.png"
+  },
+  {
+    "id": "marseille",
+    "name": "Olympique de Marseille",
+    "shortName": "MARSEILLE",
+    "logo": "/logos/ligue1/marseille.png"
+  },
+  {
+    "id": "lille",
+    "name": "LOSC Lille",
+    "shortName": "LILLE",
+    "logo": "/logos/ligue1/lille.png"
+  },
+  {
+    "id": "parisfc",
+    "name": "Paris FC",
+    "shortName": "PARIS FC",
+    "logo": "/logos/ligue1/parisfc.png"
+  },
+  {
+    "id": "lehavre",
+    "name": "Le Havre AC",
+    "shortName": "LE HAVRE",
+    "logo": "/logos/ligue1/lehavre.png"
+  },
+  {
+    "id": "lyon",
+    "name": "Olympique Lyonnais",
+    "shortName": "LYON",
+    "logo": "/logos/ligue1/lyon.png"
+  },
+  {
+    "id": "strasbourg",
+    "name": "RC Strasbourg Alsace",
+    "shortName": "STRASBOURG",
+    "logo": "/logos/ligue1/strasbourg.png"
+  },
+  {
+    "id": "angers",
+    "name": "Angers SCO",
+    "shortName": "ANGERS",
+    "logo": "/logos/ligue1/angers.png"
+  }
+]

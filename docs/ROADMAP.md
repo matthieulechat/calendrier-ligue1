@@ -50,35 +50,37 @@ public/
 
 ### 1.1 Données
 
-- [ ] Créer `src/data/ligue1-2627/matches.json` avec des données **fake** (34 journées × calendrier complet, pas seulement Le Mans FC) pour ne pas bloquer le développement UI
-- [ ] Créer `src/types/match.ts` (interface `Match`, `Competition`, `Club`) — le type `Match` inclut dès le départ `journee`, `date`, `domicile`, `exterieur`, `score: { domicile: number | null; exterieur: number | null }`
+- [x] Créer `src/data/ligue1-2627/matches.json` avec des données **fake** (34 journées × calendrier complet, pas seulement Le Mans FC) pour ne pas bloquer le développement UI — round-robin généré (18 clubs, aller-retour), dates étalées août→mai comme une vraie saison
+- [x] Créer `src/types/match.ts` (interface `Match`, `Competition`, `Club`) — le type `Match` inclut dès le départ `journee`, `date`, `domicile`, `exterieur`, `score: { domicile: number | null; exterieur: number | null }`
 - [ ] Substituer les données fake par les vraies données (transmises par Baptiste dans une prochaine étape)
 
 ### 1.2 Composants affiche
 
-- [ ] `PosterSheet` — conteneur A4 (210×297mm, dégradé rouge)
-- [ ] `PosterHeader` — bandeau noir, titre, logos club + ligue
-- [ ] `PosterLegend` — pictos maison/avion
-- [ ] `MonthBlock` — titre mois + liste matchs
-- [ ] `MatchRow` — date, logo adverse, cases score, picto D/E — structure sémantique `<table>`/`<tr>` plutôt que divs (accessibilité + sens)
-- [ ] `ScoreBox` — 2 cases + tiret + libellé ordre score (dynamique selon D/E)
-- [ ] `PosterFooter` — texte légal + logo + timestamp de fraîcheur des données
+- [x] `PosterSheet` — conteneur A4 (210×297mm, dégradé rouge)
+- [x] `PosterHeader` — bandeau noir, titre, logos club + ligue
+- [x] `PosterLegend` — pictos maison/avion (via `lucide-react`, déjà une dépendance)
+- [x] `MonthBlock` — titre mois + liste matchs
+- [x] `MatchRow` — date, logo adverse, cases score, picto D/E — structure `role="row"`/`role="cell"` (ARIA) plutôt que `<table>` littéral : un vrai `<table>` imbriqué dans le CSS Grid `.match-row` n'apportait aucun bug au final (vérifié), mais les divs + rôles ARIA restent plus simples à maintenir pour la même sémantique d'accessibilité
+- [x] `ScoreBox` — 2 cases + tiret + libellé ordre score (dynamique selon D/E)
+- [x] `PosterFooter` — texte légal + logo + timestamp de fraîcheur des données
 
 ### 1.3 Impression / export
 
-- [ ] `@page { size: A4 portrait; margin: 0 }`
-- [ ] Fond plein via `print-color-adjust: exact`
-- [ ] **Test empirique réel** : impression physique (pas preview) sur Chrome + Firefox + Edge, sur au moins 2 imprimantes différentes — vérifier marge non-imprimable, rendu couleur, débordements
+- [x] `@page { size: A4 portrait; margin: 0 }`
+- [x] Fond plein via `print-color-adjust: exact`
+- [ ] **Test empirique réel** : impression physique (pas preview) sur Chrome + Firefox + Edge, sur au moins 2 imprimantes différentes — vérifier marge non-imprimable, rendu couleur, débordements (à faire par Baptiste, pas automatisable)
 - [ ] Si le CSS print s'avère insuffisant → fallback `html2canvas` + `jsPDF` (réutilise le DOM/design existant, pas de réimplémentation)
 - [ ] `react-pdf` uniquement si les deux options précédentes échouent réellement (coût : réimplémentation complète du design dans un moteur de rendu séparé)
-- [ ] Bouton "Imprimer"
+- [x] Bouton "Imprimer"
+
+> ⚠️ Avec les données fake actuelles, la colonne la plus dense (17 matchs/5 mois) dépasse la hauteur A4 d'environ 10mm (mesuré à l'écran, budget vertical ~220mm dispo pour ~230mm de contenu). Le calendrier réel de Le Mans FC (V1, 18 matchs/6 mois sur la colonne la plus dense) tenait sur une page — à revérifier une fois les vraies données substituées (1.1) plutôt que d'ajuster le CSS pour un jeu de données temporaire.
 
 ### 1.4 Logos
 
-- [ ] Télécharger logos Ligue 1 26/27 depuis repo luukhopman → `/public/logos/ligue1/`
-- [ ] Logo LMFC + logo Ligue 1 McDonald's en `/public/logos/`
-- [ ] Icônes Lucide `house` et `plane` intégrées en SVG inline (symbol/use)
-- [ ] Vérifier les conditions d'usage des logos/marques avant toute diffusion publique (cf. Phase 7)
+- [x] Télécharger logos Ligue 1 26/27 depuis repo luukhopman → `/public/logos/ligue1/` (16 clubs saison courante + Troyes depuis `history/2022-23/`)
+- [x] Logo LMFC + logo Ligue 1 McDonald's en `/public/logos/` — extraits directement des data URI base64 déjà embarquées dans `docs/affiche_lemans_A4_v8.html` (V1), pas besoin de redemander l'asset à Baptiste
+- [x] Icônes Lucide `house` et `plane` intégrées via `lucide-react` (déjà une dépendance du projet, préféré au SVG `symbol`/`use` inline de la V1)
+- [ ] Vérifier les conditions d'usage des logos/marques avant toute diffusion publique (cf. Phase 7 — déjà trackée comme blocker ouvert BLK-001)
 
 ---
 
@@ -153,6 +155,24 @@ public/
 
 ---
 
+## Dépendances entre phases (travail à 2)
+
+**Objectif** : permettre à 2 devs (2 PC) de bosser en parallèle sans se marcher dessus. Une branche courte par phase/tâche + PR vers `main`, pas de workflow git plus lourd que ça pour un projet à 2.
+
+| Phase                                                     | Bloquée par                          | Peut tourner en parallèle avec | Fichiers principaux touchés                                                                     |
+| --------------------------------------------------------- | ------------------------------------ | ------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **1 (reste)** — vraies données + test impression physique | —                                    | 2, 3, 5                        | `data/ligue1-2627/matches.json`, impression physique (non parallélisable en soi, solo Baptiste) |
+| **2** — spike API foot                                    | —                                    | 1, 3, 5                        | Aucun fichier du repo (recherche/tests externes)                                                |
+| **3** — sélection club dynamique                          | Structure JSON déjà figée (1.1 fait) | 1 (reste), 2, 5                | `adapters/ligue1.ts`, nouveau composant `Select`                                                |
+| **5** — saisie de scores dans l'app                       | `ScoreBox` existant (fait)           | 1 (reste), 2, 3                | `components/poster/ScoreBox.tsx`, nouveau hook `localStorage`                                   |
+| **4** — couleurs dynamiques                               | 3 (besoin du club sélectionné)       | —                              | `types/match.ts` (`Club.colors`), CSS variables                                                 |
+| **6** — pipeline de données réelles                       | 2 (décision go/no-go API)            | —                              | `scripts/scrape-ligue1.ts`, `data/ligue1-2627/matches.json`                                     |
+| **7** — mise en public                                    | Toutes les précédentes stabilisées   | —                              | —                                                                                               |
+
+⚠️ **Point de friction** : `matches.json`/`clubs.json` sont des fichiers uniques partagés — éviter que les 2 devs les éditent en même temps (conflits Git sur du JSON). Se coordonner avant d'y toucher, même entre phases "parallèles".
+
+---
+
 ## Backlog / idées futures
 
 - **Généralisation multi-compétitions** (`CompetitionAdapter`, Ligue 2, Ligue 3, Basket Pro A, Pro B, Top 14…) — à concevoir **seulement** au moment d'implémenter une 2e compétition réelle, jamais à partir d'un seul cas (Ligue 1). Ne pas anticiper la forme de l'interface avant d'avoir au moins deux implémentations concrètes sous les yeux.
@@ -163,4 +183,4 @@ public/
 
 ## En cours
 
-> Phase 0 terminée (2026-07-01) — prochaine étape : Phase 1 (affiche statique Le Mans FC).
+> Phase 0 terminée (2026-07-01). Phase 1 (affiche statique Le Mans FC) : composants + données fake + logos + impression CSS faits (2026-07-02) — reste le test d'impression physique par Baptiste et la substitution des données réelles.
