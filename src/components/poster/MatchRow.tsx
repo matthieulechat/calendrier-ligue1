@@ -25,7 +25,7 @@ export const MatchRow = ({
 
   return (
     <div
-      className="grid grid-cols-[9mm_1fr_auto_5mm] items-center gap-[1.5mm] py-[0.9mm] border-b-[0.3mm] border-dashed border-white/[18%]"
+      className="grid grid-cols-[9mm_1fr_auto_5mm] items-center gap-[1.5mm] py-[0.6mm] border-b-[0.3mm] border-dashed border-white/[18%]"
       role="row"
     >
       <div

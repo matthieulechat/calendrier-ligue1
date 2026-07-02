@@ -3,7 +3,7 @@
     "id": "lemans",
     "name": "Le Mans FC",
     "shortName": "LE MANS",
-    "logo": "/logos/ligue1/lemans.svg",
+    "logo": "/logos/ligue1/lemans.png",
     "colors": {
       "primary": "#a51820",
       "primaryVariant": "#6e0b12",

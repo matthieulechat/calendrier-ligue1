@@ -73,14 +73,14 @@ public/
 - [ ] `react-pdf` uniquement si les deux options précédentes échouent réellement (coût : réimplémentation complète du design dans un moteur de rendu séparé)
 - [x] Bouton "Imprimer"
 
-> ⚠️ Avec les données fake actuelles, la colonne la plus dense (17 matchs/5 mois) dépasse la hauteur A4 d'environ 10mm (mesuré à l'écran, budget vertical ~220mm dispo pour ~230mm de contenu). Le calendrier réel de Le Mans FC (V1, 18 matchs/6 mois sur la colonne la plus dense) tenait sur une page — à revérifier une fois les vraies données substituées (1.1) plutôt que d'ajuster le CSS pour un jeu de données temporaire.
+> ✅ Dépassement mesuré empiriquement (`agent-browser`) à 307,12mm pour 297mm dispo (colonne la plus dense : 18 lignes/5 mois avec les données fake). Résolu en resserrant `MatchRow` (`py-[0.9mm]`→`py-[0.6mm]`) et `MonthBlock` (`mt-[2.5mm]`→`mt-[2mm]`) — contenu réel désormais à 286,4mm, soit 10,6mm de marge sous 297mm, ce qui couvre aussi le cas réel V1 (18 matchs/6 mois). Cf. [ZBLK-20260702232209-1](../.claude/memory/archive/blockers/ZBLK-20260702232209-1.md).
 
 ### 1.4 Logos
 
 - [x] Télécharger logos Ligue 1 26/27 depuis repo luukhopman → `/public/logos/ligue1/` (16 clubs saison courante + Troyes depuis `history/2022-23/`)
 - [x] Logo LMFC + logo Ligue 1 McDonald's en `/public/logos/` — extraits directement des data URI base64 déjà embarquées dans `docs/affiche_lemans_A4_v8.html` (V1), pas besoin de redemander l'asset à Baptiste
 - [x] Icônes Lucide `house` et `plane` intégrées via `lucide-react` (déjà une dépendance du projet, préféré au SVG `symbol`/`use` inline de la V1)
-- [ ] Vérifier les conditions d'usage des logos/marques avant toute diffusion publique (cf. Phase 7 — déjà trackée comme blocker ouvert BLK-001)
+- [x] Vérifier les conditions d'usage des logos/marques avant toute diffusion publique (cf. Phase 7) — vérifié 2026-07-02, aucune autorisation trouvée, reste un blocker ouvert [BLK-001](../.claude/memory/blockers/BLK-001.md) tant que la mise en public n'est pas décidée
 
 ---
 
@@ -156,7 +156,7 @@ public/
 **Objectif** : passer du statut outil perso à outil partageable, une fois les phases précédentes stabilisées.
 
 - [ ] Ajouter le disclaimer "Application non officielle — projet de fan, tous droits réservés à leurs propriétaires respectifs"
-- [ ] Vérifier les conditions d'usage des logos clubs/ligue (cf. Phase 1.4)
+- [x] Vérifier les conditions d'usage des logos clubs/ligue (cf. Phase 1.4) — vérifié, aucune autorisation trouvée (ni sur le repo source, ni via la LFP) : cf. [BLK-001](../.claude/memory/blockers/BLK-001.md), reste un blocage tant que le statut public n'est pas éclairci.
 - [ ] Confirmer l'hébergement définitif (Vercel) et le domaine
 - [ ] Partage direct de l'affiche via URL paramétrique (`?club=lemans&saison=2627`) — les scores affichés viennent du JSON canonique, pas d'un état à embarquer dans l'URL
 
