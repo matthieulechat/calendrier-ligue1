@@ -24,4 +24,21 @@ ESLint (flat config, retiré puis remis à la demande de Baptiste) installé et 
 
 **Entrées clés :**
 
-- [BLK-002](blockers/BLK-002.md) — shadcn init : "Could not load the workspace config" (résolu)
+- [ZBLK-002](archive/blockers/ZBLK-002.md) — shadcn init : "Could not load the workspace config" (résolu)
+
+## 2026-07-02
+
+Implémentation complète de la Phase 1 (affiche statique Le Mans FC) : types `Match`/`Club`/`Competition`, 7 composants poster (`PosterSheet`, `PosterHeader`, `PosterLegend`, `MonthBlock`, `MatchRow`, `ScoreBox`, `PosterFooter`), données fake (round-robin 18 clubs × 34 journées), 18 logos clubs (luukhopman + history/2022-23 pour Troyes), CSS print (`@page`, `print-color-adjust`), bouton Imprimer. Lint/build/rendu navigateur validés à chaque étape.
+
+Retour de Baptiste sur cette première passe, avec 4 corrections : logos LMFC/Ligue1 de piètre qualité (extraits en base64 depuis le V1) → remplacés par des assets vectoriels officiels trouvés sur Wikipédia ; ordre des jours de la semaine incorrect (le lundi doit être premier) ; anticiper les couleurs personnalisables par club (Phase 4) ; CSS monolithique au lieu de classes Tailwind. Les 4 points ont été corrigés dans la foulée : migration complète `poster.css` → Tailwind (valeurs arbitraires pour les mm/pt), couleurs de club en CSS custom properties, `WEEKDAY_ABBR` réordonné lundi-first, nouveaux logos vectoriels.
+
+Deux diagnostics ont nécessité plusieurs tentatives pendant cette session : un dépassement de hauteur de l'affiche imprimée initialement attribué à tort à un `<table>` imbriqué dans du CSS Grid (cause réelle : marges inter-siblings oubliées dans le calcul manuel, `align-items:stretch` masquant la vraie source) ; et l'échec silencieux du téléchargement du logo Le Mans FC via Wikimedia Commons (le fichier est en réalité hébergé localement sur fr.wikipedia.org, pas sur Commons).
+
+Point encore ouvert, documenté dans `docs/ROADMAP.md` : avec les données fake actuelles, la colonne la plus dense de l'affiche dépasse légèrement la hauteur A4 — à réévaluer une fois les vraies données de calendrier substituées.
+
+**Entrées clés :**
+
+- [BDR-002](decisions/BDR-002.md) — Couleurs de club via CSS vars + Tailwind, pas de CSS monolithique
+- [BDR-003](decisions/BDR-003.md) — Logos officiels via Wikipédia plutôt que ré-extraction V1
+- [BLK-003](blockers/BLK-003.md) — Colonnes affiche plus hautes que prévu, faux suspect table imbriquée (résolu)
+- [BLK-004](blockers/BLK-004.md) — Téléchargement logo Le Mans FC échoue silencieusement (résolu)
