@@ -1,11 +1,11 @@
 ---
-id: BLK-004
+id: ZBLK-004
 type: blocker
 date: 2026-07-02
 tags: [wikipedia, wikimedia-commons, logos, debugging, api]
 ---
 
-# BLK-004 — Téléchargement logo Le Mans FC échoue silencieusement (Commons Special:FilePath)
+# ZBLK-004 — Téléchargement logo Le Mans FC échoue silencieusement (Commons Special:FilePath)
 
 | Friction                                                                                                                                                                                                                                                                   | Cause réelle                                                                                                                                                                                                                                    | Solution                                                                                                                                                 | Statut |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -13,4 +13,4 @@ tags: [wikipedia, wikimedia-commons, logos, debugging, api]
 
 ## Références
 
-- [LRN-003](../learnings/LRN-003.md) — pattern extrait de ce blocage
+- [LRN-003](../../learnings/LRN-003.md) — pattern extrait de ce blocage
