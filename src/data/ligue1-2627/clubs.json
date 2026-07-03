@@ -14,102 +14,187 @@
     "id": "brest",
     "name": "Stade Brestois 29",
     "shortName": "BREST",
-    "logo": "/logos/ligue1/brest.png"
+    "logo": "/logos/ligue1/brest.png",
+    "colors": {
+      "primary": "#da3436",
+      "secondary": "#2d292b",
+      "accent": "#f5dad7"
+    }
   },
   {
     "id": "rennes",
     "name": "Stade Rennais FC",
     "shortName": "RENNES",
-    "logo": "/logos/ligue1/rennes.png"
+    "logo": "/logos/ligue1/rennes.png",
+    "colors": {
+      "primary": "#d64e2c",
+      "secondary": "#000000",
+      "accent": "#ffd7a3"
+    }
   },
   {
     "id": "nice",
     "name": "OGC Nice",
     "shortName": "NICE",
-    "logo": "/logos/ligue1/nice.png"
+    "logo": "/logos/ligue1/nice.png",
+    "colors": {
+      "primary": "#9c8257",
+      "secondary": "#2c2b2e",
+      "accent": "#ececec"
+    }
   },
   {
     "id": "lens",
     "name": "RC Lens",
     "shortName": "LENS",
-    "logo": "/logos/ligue1/lens.png"
+    "logo": "/logos/ligue1/lens.png",
+    "colors": {
+      "primary": "#842c27",
+      "secondary": "#393537",
+      "accent": "#fdca41"
+    }
   },
   {
     "id": "lorient",
     "name": "FC Lorient",
     "shortName": "LORIENT",
-    "logo": "/logos/ligue1/lorient.png"
+    "logo": "/logos/ligue1/lorient.png",
+    "colors": {
+      "primary": "#c2764e",
+      "secondary": "#343032",
+      "accent": "#f1f0f0"
+    }
   },
   {
     "id": "psg",
     "name": "Paris Saint-Germain",
     "shortName": "PARIS SG",
-    "logo": "/logos/ligue1/psg.png"
+    "logo": "/logos/ligue1/psg.png",
+    "colors": {
+      "primary": "#0c4175",
+      "secondary": "#ef5337",
+      "accent": "#e9eef4"
+    }
   },
   {
     "id": "toulouse",
     "name": "FC Toulouse",
     "shortName": "TOULOUSE",
-    "logo": "/logos/ligue1/toulouse.png"
+    "logo": "/logos/ligue1/toulouse.png",
+    "colors": {
+      "primary": "#45365f",
+      "secondary": "#e06d5a",
+      "accent": "#f8f7f9"
+    }
   },
   {
     "id": "auxerre",
     "name": "AJ Auxerre",
     "shortName": "AUXERRE",
-    "logo": "/logos/ligue1/auxerre.png"
+    "logo": "/logos/ligue1/auxerre.png",
+    "colors": {
+      "primary": "#0051a3",
+      "secondary": "#7d8591",
+      "accent": "#e5ecf4"
+    }
   },
   {
     "id": "troyes",
     "name": "ESTAC Troyes",
     "shortName": "TROYES",
-    "logo": "/logos/ligue1/troyes.png"
+    "logo": "/logos/ligue1/troyes.png",
+    "colors": {
+      "primary": "#2364a3",
+      "secondary": "#a48749",
+      "accent": "#f0f2f5"
+    }
   },
   {
     "id": "monaco",
     "name": "AS Monaco",
     "shortName": "MONACO",
-    "logo": "/logos/ligue1/monaco.png"
+    "logo": "/logos/ligue1/monaco.png",
+    "colors": {
+      "primary": "#a77a41",
+      "secondary": "#dd101e",
+      "accent": "#fbe4e2"
+    }
   },
   {
     "id": "marseille",
     "name": "Olympique de Marseille",
     "shortName": "MARSEILLE",
-    "logo": "/logos/ligue1/marseille.png"
+    "logo": "/logos/ligue1/marseille.png",
+    "colors": {
+      "primary": "#008abb",
+      "secondary": "#9e7846",
+      "accent": "#d1e9f8"
+    }
   },
   {
     "id": "lille",
     "name": "LOSC Lille",
     "shortName": "LILLE",
-    "logo": "/logos/ligue1/lille.png"
+    "logo": "/logos/ligue1/lille.png",
+    "colors": {
+      "primary": "#ea4741",
+      "secondary": "#242663",
+      "accent": "#e7e7ee"
+    }
   },
   {
     "id": "parisfc",
     "name": "Paris FC",
     "shortName": "PARIS FC",
-    "logo": "/logos/ligue1/parisfc.png"
+    "logo": "/logos/ligue1/parisfc.png",
+    "colors": {
+      "primary": "#172245",
+      "secondary": "#6f90b3",
+      "accent": "#faf4f4"
+    }
   },
   {
     "id": "lehavre",
     "name": "Le Havre AC",
     "shortName": "LE HAVRE",
-    "logo": "/logos/ligue1/lehavre.png"
+    "logo": "/logos/ligue1/lehavre.png",
+    "colors": {
+      "primary": "#24355f",
+      "secondary": "#7491a9",
+      "accent": "#f7f6f4"
+    }
   },
   {
     "id": "lyon",
     "name": "Olympique Lyonnais",
     "shortName": "LYON",
-    "logo": "/logos/ligue1/lyon.png"
+    "logo": "/logos/ligue1/lyon.png",
+    "colors": {
+      "primary": "#ec552d",
+      "secondary": "#2b3db2",
+      "accent": "#faebdd"
+    }
   },
   {
     "id": "strasbourg",
     "name": "RC Strasbourg Alsace",
     "shortName": "STRASBOURG",
-    "logo": "/logos/ligue1/strasbourg.png"
+    "logo": "/logos/ligue1/strasbourg.png",
+    "colors": {
+      "primary": "#3787bc",
+      "secondary": "#c45828",
+      "accent": "#e1e5e7"
+    }
   },
   {
     "id": "angers",
     "name": "Angers SCO",
     "shortName": "ANGERS",
-    "logo": "/logos/ligue1/angers.png"
+    "logo": "/logos/ligue1/angers.png",
+    "colors": {
+      "primary": "#928577",
+      "secondary": "#19100d",
+      "accent": "#ededed"
+    }
   }
 ]

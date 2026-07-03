@@ -112,14 +112,14 @@ public/
 
 ---
 
-## Phase 4 — Couleurs dynamiques par club
+## Phase 4 — Couleurs dynamiques par club ✅
 
 **Objectif** : adapter la palette de l'affiche aux couleurs du club sélectionné.
 
-- [ ] Créer un champ `colors: { primary, secondary, accent }` dans l'interface `Club`
-- [ ] Alimenter les couleurs manuellement (JSON) pour chaque club Ligue 1 26/27
-- [ ] Injecter les couleurs via CSS variables (`--color-primary`, `--color-accent`…)
-- [ ] Tester le rendu impression avec plusieurs clubs
+- [x] Créer un champ `colors: { primary, secondary, accent }` dans l'interface `Club`
+- [x] Alimenter les couleurs via colorthief (extraction automatique depuis les logos PNG) pour chaque club Ligue 1 26/27 — données baked dans `clubs.json`, script one-shot supprimé après usage
+- [x] Injecter les couleurs via CSS variables (`--club-primary`, `--club-secondary`, `--club-accent`) sur le conteneur racine de l'affiche via `clubColorVars()` dans `lib/poster.ts`
+- [ ] Tester le rendu impression avec plusieurs clubs (test physique à faire par Baptiste)
 
 ---
 
@@ -190,4 +190,4 @@ public/
 
 ## En cours
 
-> Phase 0 terminée (2026-07-01). Phase 1 (affiche statique Le Mans FC) : composants + données fake + logos + impression CSS faits (2026-07-02) — reste le test d'impression physique par Baptiste et la substitution des données réelles. Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)). Phase 3 (sélection club dynamique) et Phase 5 (saisie de scores) terminées et committées ensemble (2026-07-03) sur la branche `phase-2_3_5` — Select base-nova corrigé, Switch ajouté. Prochaine étape : merger `phase-2_3_5` → `main`, puis démarrer Phase 4 (couleurs dynamiques par club).
+> Phase 0 terminée (2026-07-01). Phase 1 (affiche statique Le Mans FC) : composants + données fake + logos + impression CSS faits (2026-07-02) — reste le test d'impression physique par Baptiste et la substitution des données réelles. Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)). Phases 3, 4 et 5 terminées et committées sur la branche `phase-2_3_4_5` (2026-07-03) — couleurs extraites via colorthief depuis les logos PNG pour les 18 clubs. Prochaine étape : merger `phase-2_3_4_5` → `main`.
