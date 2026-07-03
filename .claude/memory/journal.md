@@ -63,3 +63,7 @@ Vérification bout en bout via agent-browser : score saisi persiste après recha
 
 - [BDR-20260702232918-1](decisions/BDR-20260702232918-1.md) — Phase 5 : architecture localStorage + prop-drilling
 - [BLK-20260702232918-2](blockers/BLK-20260702232918-2.md) — pnpm lint (rtk) masqué par ESLint global (ouvert)
+
+## 2026-07-03
+
+Session courte de polish UI. Trois bugs remontés visuellement : le toggle "Imprimer vide / Imprimer avec scores" utilisait deux boutons shadcn au lieu d'un Switch ; le Select de club affichait l'id brut (`lemans`) au lieu du nom propre (`Le Mans FC`) ; les noms de clubs étaient tronqués dans le dropdown. Les trois ont été corrigés en séquence : installation du composant `Switch` via la CLI shadcn (base-nova), passage de `{club.name}` en children de `SelectValue` (base-ui ne résout pas l'ItemText automatiquement contrairement à Radix), et remplacement de `w-(--anchor-width)` par `min-w-(--anchor-width)` dans `select.tsx` pour que le popup puisse s'élargir. Ajout du style jaune app sur le Switch via `data-checked:bg-[#ffd84d]` en className, sans toucher aux CSS vars globales.
