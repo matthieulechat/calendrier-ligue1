@@ -9,3 +9,5 @@ dist-ssr
 # Obsidian vault
 **/.obsidian/
 .claude/memory/dashboard.md
+.claude/memory/.multi-user
+

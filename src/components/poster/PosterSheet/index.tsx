@@ -8,6 +8,7 @@ import {
   groupByMonth,
   splitColumns,
 } from "@/lib/poster";
+import type { ScoreField } from "@/lib/scores";
 import type { Club, Competition, Match } from "@/types/match";
 
 interface PosterSheetProps {
@@ -16,6 +17,8 @@ interface PosterSheetProps {
   matches: Match[];
   clubs: Club[];
   updatedAt: string;
+  onScoreChange: (key: string, field: ScoreField, value: number | null) => void;
+  printBlank: boolean;
 }
 
 export const PosterSheet = ({
@@ -24,6 +27,8 @@ export const PosterSheet = ({
   matches,
   clubs,
   updatedAt,
+  onScoreChange,
+  printBlank,
 }: PosterSheetProps) => {
   const clubsById = new Map(clubs.map((c) => [c.id, c]));
   const clubMatches = getClubMatches(matches, club.id);
@@ -46,6 +51,8 @@ export const PosterSheet = ({
               club={club}
               clubsById={clubsById}
               isFirst={i === 0}
+              onScoreChange={onScoreChange}
+              printBlank={printBlank}
             />
           ))}
         </div>
@@ -58,6 +65,8 @@ export const PosterSheet = ({
               club={club}
               clubsById={clubsById}
               isFirst={i === 0}
+              onScoreChange={onScoreChange}
+              printBlank={printBlank}
             />
           ))}
         </div>

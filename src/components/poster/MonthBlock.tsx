@@ -1,5 +1,6 @@
 import { MatchRow } from "@/components/poster/MatchRow";
 import type { MonthGroup } from "@/lib/poster";
+import type { ScoreField } from "@/lib/scores";
 import type { Club } from "@/types/match";
 
 interface MonthBlockProps {
@@ -7,6 +8,8 @@ interface MonthBlockProps {
   club: Club;
   clubsById: Map<string, Club>;
   isFirst: boolean;
+  onScoreChange: (key: string, field: ScoreField, value: number | null) => void;
+  printBlank: boolean;
 }
 
 export const MonthBlock = ({
@@ -14,6 +17,8 @@ export const MonthBlock = ({
   club,
   clubsById,
   isFirst,
+  onScoreChange,
+  printBlank,
 }: MonthBlockProps) => (
   <div>
     <h3
@@ -34,6 +39,8 @@ export const MonthBlock = ({
               match={match}
               club={club}
               opponent={opponent}
+              onScoreChange={onScoreChange}
+              printBlank={printBlank}
             />
           );
         })}

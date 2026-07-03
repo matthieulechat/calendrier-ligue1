@@ -84,24 +84,31 @@ public/
 
 ---
 
-## Phase 2 — Spike de faisabilité données
+## Phase 2 — Spike de faisabilité données ✅
 
 **Objectif** : valider une source de données fiable AVANT d'investir dans un scraping maison.
 
-- [ ] Tester des APIs foot gratuites/officielles pour Ligue 1 : openligadb, football-data.org, API-Football
-- [ ] Vérifier pour chaque candidate : fixtures **ET** résultats disponibles (pas juste le calendrier), délai de mise à jour des résultats, limites de requêtes/coût
-- [ ] Décision go/no-go : API retenue, ou scraping nécessaire (→ Phase 6)
+- [x] Tester des APIs foot gratuites/officielles pour Ligue 1 : openligadb, football-data.org, API-Football
+- [x] Vérifier pour chaque candidate : fixtures **ET** résultats disponibles (pas juste le calendrier), délai de mise à jour des résultats, limites de requêtes/coût
+- [x] Décision go/no-go : **API-Football retenue** (league ID `61`, endpoint `/fixtures`, plan gratuit 100 req/jour) — voir [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)
+
+> **Résultats du spike** (2026-07-02) :
+>
+> - **openligadb** → NO-GO : couverture Ligue 1 abandonnée depuis la saison 2017/2018, aucune donnée disponible pour 2026/2027.
+> - **football-data.org** → GO (alternative viable, non retenue) : code compétition `FL1`, endpoint `/matches` unique (fixtures + scores), plan gratuit 10 req/min, scores non temps réel sur ce plan.
+> - **API-Football** → **GO, retenue** : league ID `61`, endpoint `/fixtures` unique (fixtures + scores), plan gratuit 100 req/jour, mises à jour live (~15s) même en gratuit. Nécessite une clé API (inscription gratuite).
+> - Aucune des deux options GO n'offre de garantie de SLA/uptime — le pipeline (Phase 6) doit prévoir un fallback sur les données précédentes en cas d'échec ponctuel (déjà planifié).
 
 ---
 
-## Phase 3 — Sélection de club dynamique
+## Phase 3 — Sélection de club dynamique ✅
 
 **Objectif** : choisir n'importe quel club Ligue 1, générer l'affiche avec les bonnes données.
 
-- [ ] Dropdown de sélection club (shadcn/ui `Select` ou `Combobox`)
-- [ ] Filtrage côté client du fichier `ligue1-2627/matches.json` selon le club sélectionné (`domicile === clubId || exterieur === clubId`) — pas d'abstraction `CompetitionAdapter` nécessaire pour ça
-- [ ] Affichage du bon logo adverse pour chaque match
-- [ ] Répartition automatique des mois en 2 colonnes équilibrées
+- [x] Dropdown de sélection club (shadcn/ui `Select` ou `Combobox`)
+- [x] Filtrage côté client du fichier `ligue1-2627/matches.json` selon le club sélectionné (`domicile === clubId || exterieur === clubId`) — pas d'abstraction `CompetitionAdapter` nécessaire pour ça
+- [x] Affichage du bon logo adverse pour chaque match
+- [x] Répartition automatique des mois en 2 colonnes équilibrées
 
 ---
 
@@ -116,15 +123,15 @@ public/
 
 ---
 
-## Phase 5 — Saisie de scores dans l'app
+## Phase 5 — Saisie de scores dans l'app ✅
 
 **Objectif** : permettre à l'utilisateur qui le souhaite de saisir les scores directement dans l'app, en comblant le délai entre la fin d'un match et le prochain passage du pipeline de données (Phase 6).
 
-- [ ] `ScoreBox` devient cliquable → `<input type="number" min="0" max="99" />` avec `<label>` associé
-- [ ] Persistance locale des scores saisis (`localStorage` par club/saison)
-- [ ] **Règle de priorité** : si le JSON canonique (committé par le pipeline Phase 6) a un score non-null pour un match, il est toujours affiché en priorité et écrase la valeur locale — le `localStorage` ne sert que tant que le score canonique est `null`
-- [ ] Mode "impression vide" (cases vides, pour remplir au stylo) vs "impression remplie" (scores saisis/récupérés)
-- [ ] Toggle dans l'UI : "Imprimer vide" / "Imprimer avec scores"
+- [x] `ScoreBox` devient cliquable → `<input type="number" min="0" max="99" />` avec `<label>` associé
+- [x] Persistance locale des scores saisis (`localStorage` par **compétition/saison**, pas par club — un match a un seul score peu importe l'affiche depuis laquelle on le consulte)
+- [x] **Règle de priorité** : si le JSON canonique (committé par le pipeline Phase 6) a un score non-null pour un match, il est toujours affiché en priorité et écrase la valeur locale — le `localStorage` ne sert que tant que le score canonique est `null`
+- [x] Mode "impression vide" (cases vides, pour remplir au stylo) vs "impression remplie" (scores saisis/récupérés)
+- [x] Toggle dans l'UI : "Imprimer vide" / "Imprimer avec scores"
 
 ---
 
@@ -183,4 +190,4 @@ public/
 
 ## En cours
 
-> Phase 0 terminée (2026-07-01). Phase 1 (affiche statique Le Mans FC) : composants + données fake + logos + impression CSS faits (2026-07-02) — reste le test d'impression physique par Baptiste et la substitution des données réelles.
+> Phase 0 terminée (2026-07-01). Phase 1 (affiche statique Le Mans FC) : composants + données fake + logos + impression CSS faits (2026-07-02) — reste le test d'impression physique par Baptiste et la substitution des données réelles. Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)). Phase 3 (sélection club dynamique) et Phase 5 (saisie de scores) terminées ensemble (2026-07-02) sur la branche `phase-2_3_5`.

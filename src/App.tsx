@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import "@/App.css";
 import {
   ligue1Clubs,
@@ -5,13 +6,34 @@ import {
   ligue1Matches,
 } from "@/adapters/ligue1";
 import { PosterSheet } from "@/components/poster/PosterSheet";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useLocalScores } from "@/hooks/useLocalScores";
+import { mergeMatches } from "@/lib/scores";
 
-const LE_MANS_CLUB_ID = "lemans";
+const DEFAULT_CLUB_ID = "lemans";
 const UPDATED_AT = "02/07/2026 à 00h00";
+const STORAGE_KEY = `scores:${ligue1Competition.id}:${ligue1Competition.season}`;
 
 function App() {
-  const club = ligue1Clubs.find((c) => c.id === LE_MANS_CLUB_ID);
-  if (!club) throw new Error(`Club ${LE_MANS_CLUB_ID} introuvable`);
+  const [clubId, setClubId] = useState(DEFAULT_CLUB_ID);
+  const [printBlank, setPrintBlank] = useState(true);
+  const { scores, setScore } = useLocalScores(STORAGE_KEY);
+
+  const club = ligue1Clubs.find((c) => c.id === clubId);
+  if (!club) throw new Error(`Club ${clubId} introuvable`);
+
+  const sortedClubs = useMemo(
+    () => ligue1Clubs.toSorted((a, b) => a.name.localeCompare(b.name)),
+    [],
+  );
+  const matches = useMemo(() => mergeMatches(ligue1Matches, scores), [scores]);
 
   return (
     <div className="bg-[#2e2e2e] flex flex-col items-center min-h-screen p-[22px] font-['Arial_Narrow',Arial,Helvetica,sans-serif] [print-color-adjust:exact] [-webkit-print-color-adjust:exact] print:bg-none print:p-0 print:block print:min-h-0">
@@ -57,14 +79,53 @@ function App() {
         >
           🖨️ Imprimer l'affiche A4
         </button>
+
+        <div className="flex flex-wrap items-center gap-3 mt-3">
+          <Select
+            value={clubId}
+            onValueChange={(value) => setClubId(value as string)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Choisir un club" />
+            </SelectTrigger>
+            <SelectContent>
+              {sortedClubs.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <div className="flex gap-1.5">
+            <Button
+              type="button"
+              size="sm"
+              variant={printBlank ? "default" : "outline"}
+              onClick={() => setPrintBlank(true)}
+            >
+              Imprimer vide
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant={printBlank ? "outline" : "default"}
+              onClick={() => setPrintBlank(false)}
+            >
+              Imprimer avec scores
+            </Button>
+          </div>
+        </div>
       </div>
 
       <PosterSheet
         club={club}
         competition={ligue1Competition}
-        matches={ligue1Matches}
+        matches={matches}
         clubs={ligue1Clubs}
         updatedAt={UPDATED_AT}
+        onScoreChange={setScore}
+        printBlank={printBlank}
       />
     </div>
   );

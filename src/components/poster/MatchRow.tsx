@@ -1,17 +1,27 @@
 import { House, Plane } from "lucide-react";
 import { ScoreBox } from "@/components/poster/ScoreBox";
 import { formatMatchDay, scoreOrderLabel } from "@/lib/poster";
+import { matchKey, type ScoreField } from "@/lib/scores";
 import type { Club, Match } from "@/types/match";
 
 interface MatchRowProps {
   match: Match;
   club: Club;
   opponent: Club;
+  onScoreChange: (key: string, field: ScoreField, value: number | null) => void;
+  printBlank: boolean;
 }
 
-export const MatchRow = ({ match, club, opponent }: MatchRowProps) => {
+export const MatchRow = ({
+  match,
+  club,
+  opponent,
+  onScoreChange,
+  printBlank,
+}: MatchRowProps) => {
   const isHome = match.domicile === club.id;
   const { day, weekday } = formatMatchDay(match.date);
+  const key = matchKey(match);
 
   return (
     <div
@@ -42,7 +52,13 @@ export const MatchRow = ({ match, club, opponent }: MatchRowProps) => {
           {opponent.shortName}
         </span>
       </div>
-      <ScoreBox label={scoreOrderLabel(club, opponent, isHome)} />
+      <ScoreBox
+        label={scoreOrderLabel(club, opponent, isHome)}
+        home={match.score.domicile}
+        away={match.score.exterieur}
+        onChange={(field, value) => onScoreChange(key, field, value)}
+        printBlank={printBlank}
+      />
       <div role="cell">
         {isHome ? (
           <House className="w-[5mm] h-[5mm] shrink-0 text-[var(--club-accent)]" />
