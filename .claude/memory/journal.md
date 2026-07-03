@@ -67,3 +67,11 @@ Vérification bout en bout via agent-browser : score saisi persiste après recha
 ## 2026-07-03
 
 Session courte de polish UI. Trois bugs remontés visuellement : le toggle "Imprimer vide / Imprimer avec scores" utilisait deux boutons shadcn au lieu d'un Switch ; le Select de club affichait l'id brut (`lemans`) au lieu du nom propre (`Le Mans FC`) ; les noms de clubs étaient tronqués dans le dropdown. Les trois ont été corrigés en séquence : installation du composant `Switch` via la CLI shadcn (base-nova), passage de `{club.name}` en children de `SelectValue` (base-ui ne résout pas l'ItemText automatiquement contrairement à Radix), et remplacement de `w-(--anchor-width)` par `min-w-(--anchor-width)` dans `select.tsx` pour que le popup puisse s'élargir. Ajout du style jaune app sur le Switch via `data-checked:bg-[#ffd84d]` en className, sans toucher aux CSS vars globales.
+
+---
+
+Phase 4 implémentée : extraction automatique des couleurs de clubs via `colorthief` + `sharp`. Création du script `scripts/extract-club-colors.ts` (migré de `.mjs` après la session, lancé via `pnpm colors`, `tsx` installé comme devDep). Les gardes-fous WCAG 3.0:1 (`ensureDark` pour les fonds, `ensureAccent` pour les accents) ont corrigé plusieurs cas illisibles détectés sur les screenshots : Auxerre (secondary `#cbdaec` → `#7d8591`), Angers (primary `#cab8a5` → `#928577`), Monaco (primary `#c58f4c` → `#a77a41`), Nice/Lorient (accents quasi-noirs → quasi-blancs). Le Mans FC (SVG) ignoré silencieusement par le `catch`, garde ses couleurs manuelles.
+
+**Entrées clés :**
+
+- [BDR-20260703115848-1](decisions/BDR-20260703115848-1.md) — Phase 4 : couleurs clubs via colorthief + seuil WCAG 3.0
