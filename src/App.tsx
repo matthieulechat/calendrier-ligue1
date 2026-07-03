@@ -6,7 +6,6 @@ import {
   ligue1Matches,
 } from "@/adapters/ligue1";
 import { PosterSheet } from "@/components/poster/PosterSheet";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -14,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { mergeMatches } from "@/lib/scores";
 
@@ -86,7 +86,7 @@ function App() {
             onValueChange={(value) => setClubId(value as string)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Choisir un club" />
+              <SelectValue>{club.name}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               {sortedClubs.map((c) => (
@@ -97,23 +97,14 @@ function App() {
             </SelectContent>
           </Select>
 
-          <div className="flex gap-1.5">
-            <Button
-              type="button"
-              size="sm"
-              variant={printBlank ? "default" : "outline"}
-              onClick={() => setPrintBlank(true)}
-            >
-              Imprimer vide
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={printBlank ? "outline" : "default"}
-              onClick={() => setPrintBlank(false)}
-            >
-              Imprimer avec scores
-            </Button>
+          <div className="flex items-center gap-2 text-xs text-white/75">
+            <span>Imprimer vide</span>
+            <Switch
+              checked={!printBlank}
+              onCheckedChange={(checked) => setPrintBlank(!checked)}
+              className="data-checked:bg-[#ffd84d]"
+            />
+            <span>Imprimer avec scores</span>
           </div>
         </div>
       </div>
