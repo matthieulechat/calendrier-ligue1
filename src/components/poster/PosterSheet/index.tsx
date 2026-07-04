@@ -8,6 +8,7 @@ import {
   groupByMonth,
   splitColumns,
 } from "@/lib/poster";
+import type { ScoreField } from "@/lib/scores";
 import type { Club, Competition, Match } from "@/types/match";
 
 interface PosterSheetProps {
@@ -16,6 +17,8 @@ interface PosterSheetProps {
   matches: Match[];
   clubs: Club[];
   updatedAt: string;
+  onScoreChange: (key: string, field: ScoreField, value: number | null) => void;
+  printBlank: boolean;
 }
 
 export const PosterSheet = ({
@@ -24,6 +27,8 @@ export const PosterSheet = ({
   matches,
   clubs,
   updatedAt,
+  onScoreChange,
+  printBlank,
 }: PosterSheetProps) => {
   const clubsById = new Map(clubs.map((c) => [c.id, c]));
   const clubMatches = getClubMatches(matches, club.id);
@@ -32,7 +37,7 @@ export const PosterSheet = ({
 
   return (
     <div
-      className="w-[210mm] min-h-[297mm] p-[8mm] text-white font-['Arial_Narrow',Arial,Helvetica,sans-serif] [print-color-adjust:exact] [-webkit-print-color-adjust:exact] bg-[linear-gradient(148deg,var(--club-secondary)_0%,var(--club-primary)_100%)]"
+      className="w-[210mm] min-h-[297mm] p-[8mm] text-white font-['Arial_Narrow',Arial,Helvetica,sans-serif] [print-color-adjust:exact] [-webkit-print-color-adjust:exact] bg-[linear-gradient(148deg,var(--club-primary-variant)_0%,var(--club-primary)_100%)]"
       style={clubColorVars(club)}
     >
       <PosterHeader club={club} competition={competition} />
@@ -46,6 +51,8 @@ export const PosterSheet = ({
               club={club}
               clubsById={clubsById}
               isFirst={i === 0}
+              onScoreChange={onScoreChange}
+              printBlank={printBlank}
             />
           ))}
         </div>
@@ -58,6 +65,8 @@ export const PosterSheet = ({
               club={club}
               clubsById={clubsById}
               isFirst={i === 0}
+              onScoreChange={onScoreChange}
+              printBlank={printBlank}
             />
           ))}
         </div>

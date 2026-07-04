@@ -7,7 +7,7 @@ interface PosterHeaderProps {
 }
 
 export const PosterHeader = ({ club, competition }: PosterHeaderProps) => (
-  <header className="flex items-center justify-between bg-[#0c0c0c] px-[5mm] py-[3mm] mb-[3mm]">
+  <header className="flex items-center justify-between bg-[var(--club-secondary)] px-[5mm] py-[3mm] mb-[3mm]">
     <div>
       <h1 className="font-['Impact','Arial_Black',Haettenschweiler,sans-serif] italic text-[var(--club-accent)] text-[21pt] uppercase tracking-[0.3pt] leading-[1.15]">
         Calendrier {seasonShort(competition.season)}

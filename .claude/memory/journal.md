@@ -40,5 +40,69 @@ Point encore ouvert, documenté dans `docs/ROADMAP.md` : avec les données fake 
 
 - [BDR-002](decisions/BDR-002.md) — Couleurs de club via CSS vars + Tailwind, pas de CSS monolithique
 - [BDR-003](decisions/BDR-003.md) — Logos officiels via Wikipédia plutôt que ré-extraction V1
-- [BLK-003](blockers/BLK-003.md) — Colonnes affiche plus hautes que prévu, faux suspect table imbriquée (résolu)
-- [BLK-004](blockers/BLK-004.md) — Téléchargement logo Le Mans FC échoue silencieusement (résolu)
+- [ZBLK-003](archive/blockers/ZBLK-003.md) — Colonnes affiche plus hautes que prévu, faux suspect table imbriquée (résolu)
+- [ZBLK-004](archive/blockers/ZBLK-004.md) — Téléchargement logo Le Mans FC échoue silencieusement (résolu)
+
+---
+
+Intégration de la Phase 2 (spike de faisabilité données) : 3 agents lancés en parallèle pour évaluer openligadb, football-data.org et API-Football sur les mêmes 5 critères (couverture Ligue 1, fixtures+résultats, délai de mise à jour, quota/coût, fiabilité). openligadb écarté (couverture Ligue 1 abandonnée depuis la saison 2017/2018) ; football-data.org et API-Football tous deux GO. Baptiste a tranché pour **API-Football** (league ID `61`, endpoint `/fixtures`, quota gratuit 100 req/jour). `docs/ROADMAP.md` mis à jour (Phase 2 cochée, résumé du spike consigné).
+
+Au déclenchement de `/memory-close`, erreur de process repérée : la décision avait été créée mid-session avec un ID séquentiel classique (`BDR-004`) alors que le projet est en mode multi-user (`.claude/memory/.multi-user` présent) — renommée en `BDR-20260702223842-1`, avec mise à jour de toutes les références croisées (index, ROADMAP.md, fichier). Pattern extrait en learning global (voir aussi GLRN-20260702223842-3). Profité du rituel pour archiver deux blockers résolus de sessions précédentes qui n'avaient pas encore été déplacés vers `archive/` ([ZBLK-003](archive/blockers/ZBLK-003.md), [ZBLK-004](archive/blockers/ZBLK-004.md)).
+
+**Entrées clés :**
+
+- [BDR-20260702223842-1](decisions/BDR-20260702223842-1.md) — API-Football retenue comme source de données (Phase 6)
+
+---
+
+Intégration de la Phase 3 (sélection club dynamique) et Phase 5 (saisie de scores) ensemble sur la branche `phase-2_3_5` (renommée depuis `phase-2`). Exploration a montré que la logique de filtrage/répartition par club (`getClubMatches`, `splitColumns`) était déjà générique depuis la Phase 1 — Phase 3 s'est réduite à brancher un `Select` shadcn dans `App.tsx`. Phase 5 a nécessité plus de travail : `src/lib/scores.ts` (fusion canonique/local), `src/hooks/useLocalScores.ts` (persistance), `ScoreBox` rendu interactif (inputs contrôlés + labels accessibles), toggle "Imprimer vide"/"Imprimer avec scores" piloté en CSS pur (`print:text-transparent`). Un agent de planification a validé/corrigé l'architecture proposée (clé `localStorage` non scopée par club, prop-drilling cohérent avec le pattern existant plutôt que Context/Zustand).
+
+Vérification bout en bout via agent-browser : score saisi persiste après rechargement et après changement de club (preuve que la clé n'est pas scopée par club), classe `print:text-transparent` bascule correctement selon le toggle, aucune erreur console. `pnpm lint` (via `rtk`) a planté avec une erreur JSON illisible — diagnostiqué comme un ESLint global (9.9.0) masquant le binaire local du projet (10.6.0) ; contourné en invoquant les binaires locaux directement, `tsc -b` et `vite build` passent à 0 erreur. `docs/ROADMAP.md` mis à jour : Phase 3 et Phase 5 cochées.
+
+**Entrées clés :**
+
+- [BDR-20260702232918-1](decisions/BDR-20260702232918-1.md) — Phase 5 : architecture localStorage + prop-drilling
+- [BLK-20260702232918-2](blockers/BLK-20260702232918-2.md) — pnpm lint (rtk) masqué par ESLint global (ouvert)
+
+## 2026-07-03
+
+Session courte de polish UI. Trois bugs remontés visuellement : le toggle "Imprimer vide / Imprimer avec scores" utilisait deux boutons shadcn au lieu d'un Switch ; le Select de club affichait l'id brut (`lemans`) au lieu du nom propre (`Le Mans FC`) ; les noms de clubs étaient tronqués dans le dropdown. Les trois ont été corrigés en séquence : installation du composant `Switch` via la CLI shadcn (base-nova), passage de `{club.name}` en children de `SelectValue` (base-ui ne résout pas l'ItemText automatiquement contrairement à Radix), et remplacement de `w-(--anchor-width)` par `min-w-(--anchor-width)` dans `select.tsx` pour que le popup puisse s'élargir. Ajout du style jaune app sur le Switch via `data-checked:bg-[#ffd84d]` en className, sans toucher aux CSS vars globales.
+
+---
+
+Phase 4 implémentée : extraction automatique des couleurs de clubs via `colorthief` + `sharp`. Création du script `scripts/extract-club-colors.ts` (migré de `.mjs` après la session, lancé via `pnpm colors`, `tsx` installé comme devDep). Les gardes-fous WCAG 3.0:1 (`ensureDark` pour les fonds, `ensureAccent` pour les accents) ont corrigé plusieurs cas illisibles détectés sur les screenshots : Auxerre (secondary `#cbdaec` → `#7d8591`), Angers (primary `#cab8a5` → `#928577`), Monaco (primary `#c58f4c` → `#a77a41`), Nice/Lorient (accents quasi-noirs → quasi-blancs). Le Mans FC (SVG) ignoré silencieusement par le `catch`, garde ses couleurs manuelles.
+
+**Entrées clés :**
+
+- [BDR-20260703115848-1](decisions/BDR-20260703115848-1.md) — Phase 4 : couleurs clubs via colorthief + seuil WCAG 3.0
+
+## 2026-07-04
+
+Ajout d'une navigation clavier/boutons entre clubs (flèches gauche/droite + chevrons dans la toolbar, cycle alphabétique, garde pour ne pas interférer avec les champs de saisie de score) et d'une vue grille QA (`PosterGrid`) affichant les 18 affiches complètes en miniature pour repérer d'un coup d'œil toute incohérence visuelle entre clubs — demande explicite de Baptiste pour ses tests fréquents de changement de club. `App.tsx` allégé via extraction de la toolbar dans `AppToolbar.tsx`.
+
+Bug remonté par Baptiste sur un premier jet de la grille : le logo du club en pied de page débordait/semblait tronqué au bord de chaque miniature. Cause : les miniatures utilisaient `transform: scale()` dans un wrapper à hauteur fixe calculée nominalement (297mm × échelle), alors que le contenu réel de `PosterSheet` dépasse légèrement cette valeur — le footer se retrouvait coupé pile à la limite de clip. Remplacé par `zoom`, qui affecte aussi la taille de mise en page : le conteneur épouse désormais la vraie hauteur du contenu, sans jamais tronquer. Logo du club ajouté au passage dans le bandeau de nom sous chaque miniature.
+
+Diagnostic secondaire pendant les tests agent-browser : le club sélectionné revenait au club par défaut sans action explicite entre deux commandes. Cause trouvée via `git status --short` — des captures d'écran passées sans chemin absolu atterrissaient à la racine du projet, surveillée par le dev server Vite en cours d'exécution, déclenchant un reload complet qui réinitialisait l'état React. Résolu en redirigeant systématiquement les captures vers le scratchpad de session ; pattern généralisé en learning global.
+
+**Entrées clés :**
+
+- [BDR-20260704194656-1](decisions/BDR-20260704194656-1.md) — Grille QA clubs : miniatures fidèles vs cartes simplifiées
+- [ZBLK-20260704194656-5](archive/blockers/ZBLK-20260704194656-5.md) — Club revient au défaut sans action pendant tests agent-browser (résolu)
+
+---
+
+Ajout du logo du club dans le `Select` (trigger + items) pour retrouver son club plus vite dans la liste. Puis question de Baptiste sur l'absence de dégradé visible pour Le Mans FC comparé aux autres clubs : diagnostiqué comme un manque de contraste entre `primary`/`secondary` (deux rouges trop proches, saisis à la main) plutôt qu'un dégradé absent.
+
+Ça a enclenché une refonte complète du script `extract-club-colors.ts` sur trois itérations successives, chacune révélée par un test visuel réel (agent-browser + screenshots comparatifs) plutôt que par le calcul seul :
+
+1. Introduction de `primaryVariant` (2e stop du dégradé, dérivé du `primary`) et `secondaryVariant` (icône Extérieur, dérivé du `secondary` libéré pour le bandeau titre). Bug trouvé au passage : la branche "primary déjà très sombre" de `deriveVariantColor` éclaircissait systématiquement de +40%, sans marge de contraste restante pour les couleurs dérivées suivantes — plafonné à +16%.
+2. Persistance du problème sur PSG/Lille/Angers/Monaco : cause réelle isolée par le calcul (luminance de `primary` lui-même, pas `secondary`, trop proche du plafond WCAG). Seuil `MIN_BG` resserré de 3:1 à 6:1.
+3. FC Lorient (puis OGC Nice) restaient des cas cassés malgré tout : `secondary` et `accent` bruts sont deux gris déjà quasi identiques dans la palette extraite par colorthief — aucun seuil de contraste ne peut inventer une différence de teinte absente de la source. Fallback ajouté : si la distance RGB entre `secondaryVariant` et `accent` tombe sous 25, `secondaryVariant` est recalculé depuis le `primary` brut (plus saturé, couleur dominante du logo) à la place.
+
+Deux patterns génériques (contrainte WCAG multi-fonds qui force vers le blanc ; distance RGB plus fiable que l'écart de teinte HSL pour détecter une collision perceptuelle) extraits en learnings pour réutilisation future, y compris hors de ce projet.
+
+**Entrées clés :**
+
+- [BDR-20260704-1](decisions/BDR-20260704-1.md) — Dégradé/icônes : `primaryVariant`/`secondaryVariant` dérivés, 3 itérations de correction
+- [LRN-20260704201837-1](learnings/LRN-20260704201837-1.md) — Contraste WCAG multi-fonds → convergence forcée vers le blanc
+- [LRN-20260704201837-2](learnings/LRN-20260704201837-2.md) — Distance RGB euclidienne > écart de teinte HSL
