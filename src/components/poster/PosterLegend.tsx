@@ -12,7 +12,7 @@ export const PosterLegend = () => (
     <span className="text-white/30 text-[8pt]">|</span>
     <div className="flex items-center gap-[1.5mm]">
       <Plane
-        className="w-[3.5mm] h-[3.5mm] shrink-0 text-white/[88%]"
+        className="w-[3.5mm] h-[3.5mm] shrink-0 text-[var(--club-secondary-variant)]"
         strokeWidth={2.5}
       />
       Extérieur

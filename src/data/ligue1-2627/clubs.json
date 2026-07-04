@@ -6,7 +6,9 @@
     "logo": "/logos/ligue1/lemans.svg",
     "colors": {
       "primary": "#a51820",
-      "secondary": "#6e0b12",
+      "primaryVariant": "#6e0b12",
+      "secondary": "#1a1a1a",
+      "secondaryVariant": "#a6a6a6",
       "accent": "#ffd84d"
     }
   },
@@ -16,8 +18,10 @@
     "shortName": "BREST",
     "logo": "/logos/ligue1/brest.png",
     "colors": {
-      "primary": "#da3436",
+      "primary": "#b92c2e",
+      "primaryVariant": "#731b1d",
       "secondary": "#2d292b",
+      "secondaryVariant": "#c7c1c4",
       "accent": "#f5dad7"
     }
   },
@@ -27,9 +31,11 @@
     "shortName": "RENNES",
     "logo": "/logos/ligue1/rennes.png",
     "colors": {
-      "primary": "#d64e2c",
+      "primary": "#9b381f",
+      "primaryVariant": "#602313",
       "secondary": "#000000",
-      "accent": "#ffd7a3"
+      "secondaryVariant": "#b3b3b3",
+      "accent": "#ffc16f"
     }
   },
   {
@@ -38,9 +44,11 @@
     "shortName": "NICE",
     "logo": "/logos/ligue1/nice.png",
     "colors": {
-      "primary": "#9c8257",
+      "primary": "#715e3f",
+      "primaryVariant": "#463a27",
       "secondary": "#2c2b2e",
-      "accent": "#ececec"
+      "secondaryVariant": "#c4b295",
+      "accent": "#c1bfb5"
     }
   },
   {
@@ -50,7 +58,9 @@
     "logo": "/logos/ligue1/lens.png",
     "colors": {
       "primary": "#842c27",
+      "primaryVariant": "#984e4a",
       "secondary": "#393537",
+      "secondaryVariant": "#c5c1c3",
       "accent": "#fdca41"
     }
   },
@@ -60,9 +70,11 @@
     "shortName": "LORIENT",
     "logo": "/logos/ligue1/lorient.png",
     "colors": {
-      "primary": "#c2764e",
+      "primary": "#8c5538",
+      "primaryVariant": "#573523",
       "secondary": "#343032",
-      "accent": "#f1f0f0"
+      "secondaryVariant": "#ebaa88",
+      "accent": "#c2b9bb"
     }
   },
   {
@@ -72,8 +84,10 @@
     "logo": "/logos/ligue1/psg.png",
     "colors": {
       "primary": "#0c4175",
-      "secondary": "#ef5337",
-      "accent": "#e9eef4"
+      "primaryVariant": "#335f8b",
+      "secondary": "#ad3c28",
+      "secondaryVariant": "#e9aa9f",
+      "accent": "#baccdb"
     }
   },
   {
@@ -83,8 +97,10 @@
     "logo": "/logos/ligue1/toulouse.png",
     "colors": {
       "primary": "#45365f",
-      "secondary": "#e06d5a",
-      "accent": "#f8f7f9"
+      "primaryVariant": "#635679",
+      "secondary": "#8a4337",
+      "secondaryVariant": "#d8a59c",
+      "accent": "#d3ced8"
     }
   },
   {
@@ -94,8 +110,10 @@
     "logo": "/logos/ligue1/auxerre.png",
     "colors": {
       "primary": "#0051a3",
-      "secondary": "#7d8591",
-      "accent": "#e5ecf4"
+      "primaryVariant": "#003265",
+      "secondary": "#5a6069",
+      "secondaryVariant": "#a8adb4",
+      "accent": "#a7beda"
     }
   },
   {
@@ -105,8 +123,10 @@
     "logo": "/logos/ligue1/troyes.png",
     "colors": {
       "primary": "#2364a3",
-      "secondary": "#a48749",
-      "accent": "#f0f2f5"
+      "primaryVariant": "#163e65",
+      "secondary": "#64532d",
+      "secondaryVariant": "#cdba90",
+      "accent": "#cfd8e1"
     }
   },
   {
@@ -115,9 +135,11 @@
     "shortName": "MONACO",
     "logo": "/logos/ligue1/monaco.png",
     "colors": {
-      "primary": "#a77a41",
-      "secondary": "#dd101e",
-      "accent": "#fbe4e2"
+      "primary": "#79582f",
+      "primaryVariant": "#4b371d",
+      "secondary": "#bc0e1a",
+      "secondaryVariant": "#f89ea4",
+      "accent": "#fadddb"
     }
   },
   {
@@ -126,9 +148,11 @@
     "shortName": "MARSEILLE",
     "logo": "/logos/ligue1/marseille.png",
     "colors": {
-      "primary": "#008abb",
-      "secondary": "#9e7846",
-      "accent": "#d1e9f8"
+      "primary": "#006387",
+      "primaryVariant": "#003d54",
+      "secondary": "#725733",
+      "secondaryVariant": "#ccb08c",
+      "accent": "#7abfeb"
     }
   },
   {
@@ -137,9 +161,11 @@
     "shortName": "LILLE",
     "logo": "/logos/ligue1/lille.png",
     "colors": {
-      "primary": "#ea4741",
+      "primary": "#a9332f",
+      "primaryVariant": "#69201d",
       "secondary": "#242663",
-      "accent": "#e7e7ee"
+      "secondaryVariant": "#babbe6",
+      "accent": "#cfcfde"
     }
   },
   {
@@ -149,8 +175,10 @@
     "logo": "/logos/ligue1/parisfc.png",
     "colors": {
       "primary": "#172245",
-      "secondary": "#6f90b3",
-      "accent": "#faf4f4"
+      "primaryVariant": "#3c4563",
+      "secondary": "#44586e",
+      "secondaryVariant": "#8198b1",
+      "accent": "#e79ea0"
     }
   },
   {
@@ -160,8 +188,10 @@
     "logo": "/logos/ligue1/lehavre.png",
     "colors": {
       "primary": "#24355f",
-      "secondary": "#7491a9",
-      "accent": "#f7f6f4"
+      "primaryVariant": "#475579",
+      "secondary": "#475968",
+      "secondaryVariant": "#a2b2c0",
+      "accent": "#bcae96"
     }
   },
   {
@@ -170,9 +200,11 @@
     "shortName": "LYON",
     "logo": "/logos/ligue1/lyon.png",
     "colors": {
-      "primary": "#ec552d",
+      "primary": "#ab3d20",
+      "primaryVariant": "#6a2614",
       "secondary": "#2b3db2",
-      "accent": "#faebdd"
+      "secondaryVariant": "#bbc1ee",
+      "accent": "#f2cead"
     }
   },
   {
@@ -181,9 +213,11 @@
     "shortName": "STRASBOURG",
     "logo": "/logos/ligue1/strasbourg.png",
     "colors": {
-      "primary": "#3787bc",
-      "secondary": "#c45828",
-      "accent": "#e1e5e7"
+      "primary": "#286288",
+      "primaryVariant": "#193d54",
+      "secondary": "#8e401d",
+      "secondaryVariant": "#e8ab8f",
+      "accent": "#8bc0d9"
     }
   },
   {
@@ -192,9 +226,11 @@
     "shortName": "ANGERS",
     "logo": "/logos/ligue1/angers.png",
     "colors": {
-      "primary": "#928577",
+      "primary": "#696056",
+      "primaryVariant": "#413c35",
       "secondary": "#19100d",
-      "accent": "#ededed"
+      "secondaryVariant": "#cfaea3",
+      "accent": "#c1bebd"
     }
   }
 ]

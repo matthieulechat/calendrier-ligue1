@@ -6,7 +6,9 @@ export interface Competition {
 
 export interface ClubColors {
   primary: string;
+  primaryVariant: string;
   secondary: string;
+  secondaryVariant: string;
   accent: string;
 }
 

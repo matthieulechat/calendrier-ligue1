@@ -37,7 +37,7 @@ export const PosterSheet = ({
 
   return (
     <div
-      className="w-[210mm] min-h-[297mm] p-[8mm] text-white font-['Arial_Narrow',Arial,Helvetica,sans-serif] [print-color-adjust:exact] [-webkit-print-color-adjust:exact] bg-[linear-gradient(148deg,var(--club-secondary)_0%,var(--club-primary)_100%)]"
+      className="w-[210mm] min-h-[297mm] p-[8mm] text-white font-['Arial_Narrow',Arial,Helvetica,sans-serif] [print-color-adjust:exact] [-webkit-print-color-adjust:exact] bg-[linear-gradient(148deg,var(--club-primary-variant)_0%,var(--club-primary)_100%)]"
       style={clubColorVars(club)}
     >
       <PosterHeader club={club} competition={competition} />

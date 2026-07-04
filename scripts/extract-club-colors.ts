@@ -2,14 +2,20 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { getPalette } from "colorthief";
 
-// Seuils WCAG AA "large text" (3:1) — texte blanc sur fond dégradé primary/secondary,
-// et texte accent sur ces mêmes fonds sombres.
-const MIN_BG = 3.0;
+// Seuil de fond volontairement plus strict que le minimum WCAG (3:1) : à 3:1, primary/secondary
+// peuvent rester à luminance ~0.30 (encore "assez sombre" pour du texte blanc), ce qui ne laisse
+// quasi aucune marge à accent/secondaryVariant pour être colorés sans converger vers le blanc.
+const MIN_BG = 6.0;
 const MIN_ACC = 3.0;
+// En dessous de cette luminance, le primary est déjà quasi noir : on éclaircit
+// pour le second stop du dégradé au lieu de l'assombrir (sinon plus de différence visible).
+const DARK_LUMINANCE_THRESHOLD = 0.08;
 
 interface ClubColors {
   primary: string;
+  primaryVariant: string;
   secondary: string;
+  secondaryVariant: string;
   accent: string;
 }
 
@@ -56,26 +62,97 @@ const ensureDark = (hex: string, min = MIN_BG): string => {
   return toHex(r, g, b);
 };
 
-// Éclaircit l'accent jusqu'à ce qu'il ait un ratio >= min contre les deux fonds
-const ensureAccent = (
-  hex: string,
-  bg1: string,
-  bg2: string,
-  min = MIN_ACC,
-): string => {
-  let [r, g, b] = parse(hex);
-  for (
-    let i = 0;
-    i < 30 &&
-    Math.min(contrast(toHex(r, g, b), bg1), contrast(toHex(r, g, b), bg2)) <
-      min;
-    i++
-  ) {
-    r = Math.min(255, Math.round(r + (255 - r) * 0.2));
-    g = Math.min(255, Math.round(g + (255 - g) * 0.2));
-    b = Math.min(255, Math.round(b + (255 - b) * 0.2));
+const rgbToHsl = (
+  r: number,
+  g: number,
+  b: number,
+): [number, number, number] => {
+  const rn = r / 255,
+    gn = g / 255,
+    bn = b / 255;
+  const max = Math.max(rn, gn, bn),
+    min = Math.min(rn, gn, bn);
+  const l = (max + min) / 2;
+  if (max === min) return [0, 0, l];
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h: number;
+  if (max === rn) h = (gn - bn) / d + (gn < bn ? 6 : 0);
+  else if (max === gn) h = (bn - rn) / d + 2;
+  else h = (rn - gn) / d + 4;
+  return [h / 6, s, l];
+};
+
+const hslToRgb = (
+  h: number,
+  s: number,
+  l: number,
+): [number, number, number] => {
+  if (s === 0) {
+    const v = Math.round(l * 255);
+    return [v, v, v];
   }
-  return toHex(r, g, b);
+  const hue2rgb = (p: number, q: number, t: number) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  return [
+    Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
+    Math.round(hue2rgb(p, q, h) * 255),
+    Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
+  ];
+};
+
+// Éclaircit une couleur (en HSL, teinte/saturation préservées — pas de mélange
+// RGB vers le blanc qui désature) jusqu'à un ratio >= min contre tous les fonds donnés.
+const ensureLegible = (hex: string, bgs: string[], min = MIN_ACC): string => {
+  const [h, s, l0] = rgbToHsl(...parse(hex));
+  let l = l0;
+  for (let i = 0; i < 30; i++) {
+    const candidate = toHex(...hslToRgb(h, s, l));
+    if (Math.min(...bgs.map((bg) => contrast(candidate, bg))) >= min) break;
+    l = Math.min(1, l + 0.05);
+  }
+  return toHex(...hslToRgb(h, s, l));
+};
+
+// Distance RGB euclidienne — sert à détecter deux couleurs "qui se confondent"
+// (ex. accent et secondaryVariant tous deux gris quasi neutres : la teinte seule
+// ne suffit pas à les distinguer si la saturation des deux est déjà très faible).
+const colorDistance = (a: string, b: string): number => {
+  const [r1, g1, b1] = parse(a);
+  const [r2, g2, b2] = parse(b);
+  return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+};
+const MIN_ICON_DISTANCE = 25;
+
+// Dérive le 2e stop du dégradé à partir du primary : une teinte plus foncée
+// (cas standard, ex. Le Mans #a51820 → #6e0b12), ou plus claire si le primary
+// est déjà quasi noir. Éclaircissement plafonné à 16% (pas jusqu'au seuil de
+// contraste texte blanc, qui laisserait trop peu de marge pour accent/secondaryVariant).
+const deriveVariantColor = (primaryHex: string): string => {
+  const [r0, g0, b0] = parse(primaryHex);
+
+  if (luminance(primaryHex) >= DARK_LUMINANCE_THRESHOLD) {
+    return toHex(
+      Math.round(r0 * 0.62),
+      Math.round(g0 * 0.62),
+      Math.round(b0 * 0.62),
+    );
+  }
+
+  const amt = 0.16;
+  return toHex(
+    ...([r0, g0, b0].map((c) =>
+      Math.min(255, Math.round(c + (255 - c) * amt)),
+    ) as [number, number, number]),
+  );
 };
 
 // --- Script principal ---
@@ -95,22 +172,44 @@ for (const club of clubs) {
       continue;
     }
 
-    const raw: ClubColors = {
+    const raw = {
       primary: palette[0].hex(),
       secondary: palette[1].hex(),
       accent: palette[2].hex(),
     };
     const primary = ensureDark(raw.primary);
+    const primaryVariant = deriveVariantColor(primary);
     const secondary = ensureDark(raw.secondary);
-    const accent = ensureAccent(raw.accent, primary, secondary);
+    // secondaryVariant : le secondary (sombre, pensé pour le bandeau) éclairci
+    // juste assez pour rester lisible en icône sur le dégradé primary/primaryVariant.
+    let secondaryVariant = ensureLegible(secondary, [primary, primaryVariant]);
+    const accent = ensureLegible(raw.accent, [
+      primary,
+      primaryVariant,
+      secondary,
+    ]);
 
-    club.colors = { primary, secondary, accent };
+    // Si secondary et accent brut sont déjà deux gris quasi identiques dans la
+    // palette d'origine (ex. FC Lorient), leurs versions éclaircies se confondent
+    // aussi — on dérive alors secondaryVariant du primary brut à la place, plus
+    // saturé/distinctif (couleur dominante du logo).
+    if (colorDistance(secondaryVariant, accent) < MIN_ICON_DISTANCE) {
+      secondaryVariant = ensureLegible(raw.primary, [primary, primaryVariant]);
+    }
 
-    const diff = (Object.keys(raw) as (keyof ClubColors)[])
+    club.colors = {
+      primary,
+      primaryVariant,
+      secondary,
+      secondaryVariant,
+      accent,
+    };
+
+    const diff = (Object.keys(raw) as (keyof typeof raw)[])
       .filter((k) => club.colors![k] !== raw[k])
       .map((k) => `${k}: ${raw[k]}→${club.colors![k]}`);
     console.log(
-      `${club.id}: ${primary} / ${secondary} / ${accent}${diff.length ? `  ← [${diff.join(", ")}]` : ""}`,
+      `${club.id}: primary ${primary} / variant ${primaryVariant} / secondary ${secondary} / secondaryVariant ${secondaryVariant} / accent ${accent}${diff.length ? `  ← [${diff.join(", ")}]` : ""}`,
     );
   } catch {
     console.warn(`${club.id}: IGNORÉ — pas de PNG ou extraction impossible`);

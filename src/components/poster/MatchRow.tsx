@@ -63,7 +63,7 @@ export const MatchRow = ({
         {isHome ? (
           <House className="w-[5mm] h-[5mm] shrink-0 text-[var(--club-accent)]" />
         ) : (
-          <Plane className="w-[5mm] h-[5mm] shrink-0 text-white/[88%]" />
+          <Plane className="w-[5mm] h-[5mm] shrink-0 text-[var(--club-secondary-variant)]" />
         )}
       </div>
     </div>

@@ -3,7 +3,9 @@ import type { Club, ClubColors, Match } from "@/types/match";
 
 export const DEFAULT_CLUB_COLORS: ClubColors = {
   primary: "#a51820",
-  secondary: "#6e0b12",
+  primaryVariant: "#6e0b12",
+  secondary: "#0c0c0c",
+  secondaryVariant: "#8c8c8c",
   accent: "#ffd84d",
 };
 
@@ -13,7 +15,9 @@ export const clubColorVars = (club: Club): CSSProperties => {
   const colors = club.colors ?? DEFAULT_CLUB_COLORS;
   return {
     "--club-primary": colors.primary,
+    "--club-primary-variant": colors.primaryVariant,
     "--club-secondary": colors.secondary,
+    "--club-secondary-variant": colors.secondaryVariant,
     "--club-accent": colors.accent,
   } as CSSProperties;
 };
