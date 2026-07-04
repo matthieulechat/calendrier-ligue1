@@ -7,7 +7,7 @@ interface PosterFooterProps {
 
 export const PosterFooter = ({ club, updatedAt }: PosterFooterProps) => (
   <footer className="mt-[3.5mm] pt-[2.5mm] border-t-[0.3mm] border-white/[22%] flex items-center justify-between gap-[3mm]">
-    <div className="text-[5.5pt] text-white/40 leading-[1.5] flex-1">
+    <div className="text-[6.5pt] text-white/40 leading-[1.5] flex-1">
       Sous réserve des procédures en cours et d'éventuels recours.
       <br />
       Les jours et horaires définitifs des matchs seront définis ultérieurement.

@@ -97,6 +97,12 @@ export const formatMatchDay = (
   };
 };
 
+export const seasonShort = (season: string): string =>
+  season
+    .split("-")
+    .map((y) => y.slice(-2))
+    .join("/");
+
 export const scoreOrderLabel = (
   club: Club,
   opponent: Club,
@@ -105,9 +111,3 @@ export const scoreOrderLabel = (
   isHome
     ? `${club.shortName} – ${opponent.shortName}`
     : `${opponent.shortName} – ${club.shortName}`;
-
-export const seasonShort = (season: string): string =>
-  season
-    .split("-")
-    .map((y) => y.slice(-2))
-    .join("/");
