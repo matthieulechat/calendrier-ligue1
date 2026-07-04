@@ -25,45 +25,37 @@ export const ScoreBox = ({
   const inputClassName = `inline-block w-[7mm] h-[5.5mm] bg-white/[93%] rounded-[0.8mm] border-[0.3mm] border-white/35 shrink-0 text-center text-[8pt] font-bold text-[#111] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${printBlank ? "print:text-transparent" : ""}`;
 
   return (
-    <div
-      className="flex flex-col items-center gap-[0.5mm] shrink-0"
-      role="cell"
-    >
-      <span className="flex items-center gap-[0.8mm]">
-        <label htmlFor={`${id}-domicile`} className="sr-only">
-          {label} — score domicile
-        </label>
-        <input
-          id={`${id}-domicile`}
-          type="number"
-          min={0}
-          max={99}
-          value={home ?? ""}
-          onChange={(e) => onChange("domicile", clampScore(e.target.value))}
-          className={inputClassName}
-        />
-        <span
-          aria-hidden="true"
-          className="text-[var(--club-accent)] font-bold text-[9pt] leading-none"
-        >
-          –
-        </span>
-        <label htmlFor={`${id}-exterieur`} className="sr-only">
-          {label} — score extérieur
-        </label>
-        <input
-          id={`${id}-exterieur`}
-          type="number"
-          min={0}
-          max={99}
-          value={away ?? ""}
-          onChange={(e) => onChange("exterieur", clampScore(e.target.value))}
-          className={inputClassName}
-        />
+    <span className="flex items-center gap-[0.8mm] shrink-0" role="cell">
+      <label htmlFor={`${id}-domicile`} className="sr-only">
+        {label} — score domicile
+      </label>
+      <input
+        id={`${id}-domicile`}
+        type="number"
+        min={0}
+        max={99}
+        value={home ?? ""}
+        onChange={(e) => onChange("domicile", clampScore(e.target.value))}
+        className={inputClassName}
+      />
+      <span
+        aria-hidden="true"
+        className="text-[var(--club-accent)] font-bold text-[9pt] leading-none"
+      >
+        –
       </span>
-      <span className="text-[4.2pt] text-white/[45%] tracking-[0.2pt] whitespace-nowrap text-center">
-        {label}
-      </span>
-    </div>
+      <label htmlFor={`${id}-exterieur`} className="sr-only">
+        {label} — score extérieur
+      </label>
+      <input
+        id={`${id}-exterieur`}
+        type="number"
+        min={0}
+        max={99}
+        value={away ?? ""}
+        onChange={(e) => onChange("exterieur", clampScore(e.target.value))}
+        className={inputClassName}
+      />
+    </span>
   );
 };
