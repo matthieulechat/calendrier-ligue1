@@ -108,7 +108,7 @@ Baptiste a validé la Phase 1. Revue complète de `docs/ROADMAP.md` tâche par t
 **Entrées clés :**
 
 - [BDR-20260704192350-2](decisions/BDR-20260704192350-2.md) — Espacement statique plutôt que distribution flex élastique pour l'affiche imprimable
-- [BLK-20260704192350-4](blockers/BLK-20260704192350-4.md) — Fix élastique a réglé le vide de page mais créé des espaces incohérents entre mois (résolu)
+- [ZBLK-20260704192350-4](archive/blockers/ZBLK-20260704192350-4.md) — Fix élastique a réglé le vide de page mais créé des espaces incohérents entre mois (résolu)
 - [BDR-20260704192350-1](decisions/BDR-20260704192350-1.md) — Données réelles différées après la phase de scraping
 
 ---
@@ -141,3 +141,19 @@ Deux patterns génériques (contrainte WCAG multi-fonds qui force vers le blanc 
 - [BDR-20260704-1](decisions/BDR-20260704-1.md) — Dégradé/icônes : `primaryVariant`/`secondaryVariant` dérivés, 3 itérations de correction
 - [LRN-20260704201837-1](learnings/LRN-20260704201837-1.md) — Contraste WCAG multi-fonds → convergence forcée vers le blanc
 - [LRN-20260704201837-2](learnings/LRN-20260704201837-2.md) — Distance RGB euclidienne > écart de teinte HSL
+
+## 2026-07-05
+
+Session de rebase de `phase-1` sur `origin/main` (qui contenait déjà `phase-2_3_4_5` mergée via PR #1). Conflits additifs sur les registres mémoire (index et journal) résolus en fusionnant les deux listes plutôt qu'en écrasant un camp. Conflit fonctionnel réel sur `ScoreBox`/`MatchRow`/`PosterSheet` : la branche `phase-1` avait régressé `ScoreBox` vers une version statique non-interactive (jamais synchronisée avec la Phase 5) — résolu en gardant l'interactivité côté HEAD et en écartant la tentative `flex-1`/`grid-rows-[1fr]` de `phase-1` sur `PosterSheet`, invalidée par GLRN-20260704192350-3 (mémoire globale, non lié en local, du jour même). `scoreOrderLabel` supprimé silencieusement par le merge automatique de `lib/poster.ts` a dû être restauré manuellement. Rebase poussé en `--force-with-lease`, puis mergé sur `main` via PR #2 par Baptiste pendant la session.
+
+Baptiste a ensuite signalé deux régressions introduites par cette résolution de conflit, toutes deux corrigées dans la foulée : (1) le libellé visible sous `ScoreBox` ("Le Mans – Angers"), retiré délibérément le 04/07, avait été réintroduit en tranchant le conflit "côté HEAD entier" sans croiser avec le journal — corrigé en retirant uniquement le `<span>` visible ; (2) l'affiche débordait de 297mm à 301,48mm après fusion de la navigation multi-clubs, la marge de sécurité de 3,5mm n'ayant jamais été validée que sur Le Mans FC (seul club existant côté `phase-1`). Diagnostic et fix menés via `agent-browser` : mesure sur les 18 clubs, resserrement des espacements non-textuels (padding/marges) sans toucher aux tailles de police récemment augmentées pour la lisibilité, marge finale uniforme de 6,22mm.
+
+Tentative de comparaison de branches via `git worktree` pour diagnostiquer la régression A4 partie en dérapage (process `cp` non tué par `TaskStop`, suppression `node_modules` pnpm bloquée par des chemins trop longs sous Windows) — interrompue par Baptiste au profit d'une mesure directe, empirique, sur le code déjà fusionné. Nettoyage effectué via `robocopy /MIR`.
+
+**Entrées clés :**
+
+- [BLK-20260705000640-1](blockers/BLK-20260705000640-1.md) — Merge du rebase a réintroduit un libellé ScoreBox retiré délibérément (résolu)
+- [BLK-20260705000640-2](blockers/BLK-20260705000640-2.md) — Affiche déborde 297mm après fusion de la navigation multi-clubs (résolu)
+- [BDR-20260705000640-7](decisions/BDR-20260705000640-7.md) — Fix débordement A4 via espacements non-textuels, pas taille de police
+- [LRN-20260705000640-4](learnings/LRN-20260705000640-4.md) — Merge "côté entier" risque de réintroduire un choix abandonné
+- [BLK-20260705000640-3](blockers/BLK-20260705000640-3.md) — Comparaison de branches via git worktree partie en dérapage (résolu)
