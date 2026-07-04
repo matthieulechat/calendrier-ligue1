@@ -1,7 +1,7 @@
 import { House, Plane } from "lucide-react";
 
 export const PosterLegend = () => (
-  <div className="flex items-center justify-center gap-[4mm] text-[7pt] uppercase tracking-[0.8pt] text-white/85 py-[1.5mm] mb-[2.5mm] border-t-[0.3mm] border-b-[0.3mm] border-white/25">
+  <div className="flex items-center justify-center gap-[4mm] text-[7pt] uppercase tracking-[0.8pt] text-white/85 py-[1.5mm] mb-[1.5mm] border-t-[0.3mm] border-b-[0.3mm] border-white/25">
     <div className="flex items-center gap-[1.5mm]">
       <House
         className="w-[3.5mm] h-[3.5mm] shrink-0 text-[var(--club-accent)]"

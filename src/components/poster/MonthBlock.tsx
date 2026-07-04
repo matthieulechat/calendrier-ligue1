@@ -22,7 +22,7 @@ export const MonthBlock = ({
 }: MonthBlockProps) => (
   <div>
     <h3
-      className={`font-['Impact','Arial_Black',Haettenschweiler,sans-serif] italic text-[var(--club-accent)] text-[12pt] uppercase tracking-[0.3pt] mb-[0.8mm] ${isFirst ? "mt-0" : "mt-[2mm]"}`}
+      className={`font-['Impact','Arial_Black',Haettenschweiler,sans-serif] italic text-[var(--club-accent)] text-[12pt] uppercase tracking-[0.3pt] mb-[0.8mm] ${isFirst ? "mt-0" : "mt-[1.2mm]"}`}
     >
       {month.label}
     </h3>
