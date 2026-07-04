@@ -69,7 +69,7 @@ Passage du projet en mode mémoire multi-user (fichier `.claude/memory/.multi-us
 
 - [ZBLK-20260702232209-1](archive/blockers/ZBLK-20260702232209-1.md) — Impression sur 2 pages, affiche dépassait 297mm (résolu)
 - [LRN-20260702232209-2](learnings/LRN-20260702232209-2.md) — ligue1.com sans crests HD ; conversion SVG→PNG via canvas
-- [BLK-20260702232209-3](blockers/BLK-20260702232209-3.md) — Serveur dev de Baptiste tué par erreur (résolu)
+- [ZBLK-20260702232209-3](archive/blockers/ZBLK-20260702232209-3.md) — Serveur dev de Baptiste tué par erreur (résolu)
 - [BLK-001](blockers/BLK-001.md) — Licences des logos clubs : vérifiées, aucune autorisation trouvée
 
 ---
@@ -96,6 +96,22 @@ Phase 4 implémentée : extraction automatique des couleurs de clubs via `colort
 - [BDR-20260703115848-1](decisions/BDR-20260703115848-1.md) — Phase 4 : couleurs clubs via colorthief + seuil WCAG 3.0
 
 ## 2026-07-04
+
+Retrait du libellé "Le Mans - adversaire" sous `ScoreBox` (n'apportait rien visuellement), avec réadaptation de la hauteur au contenu. Ce changement a fait apparaître un grand vide en bas de page (poster A4 à 297mm fixes) : diagnostiqué via `agent-browser` (mesures `getBoundingClientRect`), la cause était `PosterSheet` à hauteur fixe sans que son contenu ne remplisse plus l'espace disponible après la réduction de hauteur des lignes.
+
+Premier fix (`flex flex-col justify-between` sur les colonnes de mois) a comblé le vide mais introduit un nouveau problème signalé par Baptiste : des espacements disproportionnés et incohérents entre mois, les deux colonnes n'ayant pas le même nombre de matchs (16 vs 18). Changement de direction : retrait de la distribution élastique, augmentation à la place de la hauteur fixe des lignes (`MatchRow` `py-[0.6mm]`→`py-[1.5mm]`) pour absorber l'espace libre directement dans le contenu — vérifié empiriquement, page toujours calée à 297mm avec ~3,5mm de marge de sécurité sous le footer.
+
+Augmentation ensuite des tailles de police pour la lisibilité (date, nom d'adversaire dans `MatchRow`, sous-titre `PosterHeader`, mentions légales `PosterFooter`), revérifiées à chaque étape pour ne pas faire déborder la page.
+
+Baptiste a validé la Phase 1. Revue complète de `docs/ROADMAP.md` tâche par tâche : tout vérifié dans le code (composants, données fake, impression CSS, logos), note empirique de dépassement mise à jour avec les valeurs actuelles, et clarification que la substitution des données réelles est volontairement différée après la phase de scraping (Phase 2/6) plutôt qu'une tâche bloquante immédiate. Seul le test d'impression physique (Baptiste, non automatisable) reste ouvert.
+
+**Entrées clés :**
+
+- [BDR-20260704192350-2](decisions/BDR-20260704192350-2.md) — Espacement statique plutôt que distribution flex élastique pour l'affiche imprimable
+- [BLK-20260704192350-4](blockers/BLK-20260704192350-4.md) — Fix élastique a réglé le vide de page mais créé des espaces incohérents entre mois (résolu)
+- [BDR-20260704192350-1](decisions/BDR-20260704192350-1.md) — Données réelles différées après la phase de scraping
+
+---
 
 Ajout d'une navigation clavier/boutons entre clubs (flèches gauche/droite + chevrons dans la toolbar, cycle alphabétique, garde pour ne pas interférer avec les champs de saisie de score) et d'une vue grille QA (`PosterGrid`) affichant les 18 affiches complètes en miniature pour repérer d'un coup d'œil toute incohérence visuelle entre clubs — demande explicite de Baptiste pour ses tests fréquents de changement de club. `App.tsx` allégé via extraction de la toolbar dans `AppToolbar.tsx`.
 
