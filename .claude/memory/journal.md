@@ -55,6 +55,25 @@ Au déclenchement de `/memory-close`, erreur de process repérée : la décision
 
 ---
 
+Finalisation de la Phase 1. Corrigé le débordement d'impression sur 2 pages (footer relégué sur une page quasi vide) : mesuré empiriquement via `agent-browser` que l'affiche faisait 307,12mm pour 297mm disponibles, resserré l'espacement de `MatchRow`/`MonthBlock` pour ramener le contenu réel à 286,4mm. Corrigé aussi le logo "Ligue 1 McDonald's" qui affichait une boîte blanche sur le header noir — un rectangle de fond plein caché dans le premier `<path>` du SVG, supprimé.
+
+Recherche de logos haute qualité sur `ligue1.com` à la demande de Baptiste : le site n'héberge que des icônes monochromes et des crests couleur limités à 128×128 via un CDN tiers, aucune amélioration par rapport aux PNG déjà en place. Décision de garder les logos actuels, et conversion du logo Le Mans FC (seul SVG restant) en PNG pour la cohérence du dossier assets, via un rendu canvas navigateur sans nouvelle dépendance.
+
+Vérification complète de la Phase 1 tâche par tâche : tout est fait sauf deux points structurellement bloqués (substitution des vraies données de calendrier, test d'impression physique multi-navigateurs/imprimantes par Baptiste). Vérification des conditions d'usage des logos/marques avant mise en public (Phase 7) : aucune autorisation trouvée nulle part (ni le repo source des logos, ni les CGU de la LFP), le blocage reste ouvert.
+
+Incident en session : le serveur `pnpm dev` de Baptiste a été tué par erreur en nettoyant des process de test par numéro de port, sans vérifier leur origine — corrigé immédiatement en relançant le serveur sur le port libéré.
+
+Passage du projet en mode mémoire multi-user (fichier `.claude/memory/.multi-user` déjà présent, détecté en cours de rituel de fermeture) : toutes les entrées créées dans cette session ont été renumérotées au format timestamp (`<PREFIX>-20260702232209-<N>`).
+
+**Entrées clés :**
+
+- [ZBLK-20260702232209-1](archive/blockers/ZBLK-20260702232209-1.md) — Impression sur 2 pages, affiche dépassait 297mm (résolu)
+- [LRN-20260702232209-2](learnings/LRN-20260702232209-2.md) — ligue1.com sans crests HD ; conversion SVG→PNG via canvas
+- [ZBLK-20260702232209-3](archive/blockers/ZBLK-20260702232209-3.md) — Serveur dev de Baptiste tué par erreur (résolu)
+- [BLK-001](blockers/BLK-001.md) — Licences des logos clubs : vérifiées, aucune autorisation trouvée
+
+---
+
 Intégration de la Phase 3 (sélection club dynamique) et Phase 5 (saisie de scores) ensemble sur la branche `phase-2_3_5` (renommée depuis `phase-2`). Exploration a montré que la logique de filtrage/répartition par club (`getClubMatches`, `splitColumns`) était déjà générique depuis la Phase 1 — Phase 3 s'est réduite à brancher un `Select` shadcn dans `App.tsx`. Phase 5 a nécessité plus de travail : `src/lib/scores.ts` (fusion canonique/local), `src/hooks/useLocalScores.ts` (persistance), `ScoreBox` rendu interactif (inputs contrôlés + labels accessibles), toggle "Imprimer vide"/"Imprimer avec scores" piloté en CSS pur (`print:text-transparent`). Un agent de planification a validé/corrigé l'architecture proposée (clé `localStorage` non scopée par club, prop-drilling cohérent avec le pattern existant plutôt que Context/Zustand).
 
 Vérification bout en bout via agent-browser : score saisi persiste après rechargement et après changement de club (preuve que la clé n'est pas scopée par club), classe `print:text-transparent` bascule correctement selon le toggle, aucune erreur console. `pnpm lint` (via `rtk`) a planté avec une erreur JSON illisible — diagnostiqué comme un ESLint global (9.9.0) masquant le binaire local du projet (10.6.0) ; contourné en invoquant les binaires locaux directement, `tsc -b` et `vite build` passent à 0 erreur. `docs/ROADMAP.md` mis à jour : Phase 3 et Phase 5 cochées.
@@ -77,6 +96,22 @@ Phase 4 implémentée : extraction automatique des couleurs de clubs via `colort
 - [BDR-20260703115848-1](decisions/BDR-20260703115848-1.md) — Phase 4 : couleurs clubs via colorthief + seuil WCAG 3.0
 
 ## 2026-07-04
+
+Retrait du libellé "Le Mans - adversaire" sous `ScoreBox` (n'apportait rien visuellement), avec réadaptation de la hauteur au contenu. Ce changement a fait apparaître un grand vide en bas de page (poster A4 à 297mm fixes) : diagnostiqué via `agent-browser` (mesures `getBoundingClientRect`), la cause était `PosterSheet` à hauteur fixe sans que son contenu ne remplisse plus l'espace disponible après la réduction de hauteur des lignes.
+
+Premier fix (`flex flex-col justify-between` sur les colonnes de mois) a comblé le vide mais introduit un nouveau problème signalé par Baptiste : des espacements disproportionnés et incohérents entre mois, les deux colonnes n'ayant pas le même nombre de matchs (16 vs 18). Changement de direction : retrait de la distribution élastique, augmentation à la place de la hauteur fixe des lignes (`MatchRow` `py-[0.6mm]`→`py-[1.5mm]`) pour absorber l'espace libre directement dans le contenu — vérifié empiriquement, page toujours calée à 297mm avec ~3,5mm de marge de sécurité sous le footer.
+
+Augmentation ensuite des tailles de police pour la lisibilité (date, nom d'adversaire dans `MatchRow`, sous-titre `PosterHeader`, mentions légales `PosterFooter`), revérifiées à chaque étape pour ne pas faire déborder la page.
+
+Baptiste a validé la Phase 1. Revue complète de `docs/ROADMAP.md` tâche par tâche : tout vérifié dans le code (composants, données fake, impression CSS, logos), note empirique de dépassement mise à jour avec les valeurs actuelles, et clarification que la substitution des données réelles est volontairement différée après la phase de scraping (Phase 2/6) plutôt qu'une tâche bloquante immédiate. Seul le test d'impression physique (Baptiste, non automatisable) reste ouvert.
+
+**Entrées clés :**
+
+- [BDR-20260704192350-2](decisions/BDR-20260704192350-2.md) — Espacement statique plutôt que distribution flex élastique pour l'affiche imprimable
+- [BLK-20260704192350-4](blockers/BLK-20260704192350-4.md) — Fix élastique a réglé le vide de page mais créé des espaces incohérents entre mois (résolu)
+- [BDR-20260704192350-1](decisions/BDR-20260704192350-1.md) — Données réelles différées après la phase de scraping
+
+---
 
 Ajout d'une navigation clavier/boutons entre clubs (flèches gauche/droite + chevrons dans la toolbar, cycle alphabétique, garde pour ne pas interférer avec les champs de saisie de score) et d'une vue grille QA (`PosterGrid`) affichant les 18 affiches complètes en miniature pour repérer d'un coup d'œil toute incohérence visuelle entre clubs — demande explicite de Baptiste pour ses tests fréquents de changement de club. `App.tsx` allégé via extraction de la toolbar dans `AppToolbar.tsx`.
 

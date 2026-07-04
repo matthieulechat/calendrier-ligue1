@@ -42,7 +42,7 @@ export const PosterSheet = ({
     >
       <PosterHeader club={club} competition={competition} />
       <PosterLegend />
-      <div className="grid grid-cols-[1fr_0.3mm_1fr] gap-[2.5mm]">
+      <div className="grid grid-cols-[1fr_0.3mm_1fr] grid-rows-[1fr] gap-[2.5mm] flex-1">
         <div>
           {leftMonths.map((month, i) => (
             <MonthBlock

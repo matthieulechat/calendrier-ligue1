@@ -52,7 +52,7 @@ public/
 
 - [x] Créer `src/data/ligue1-2627/matches.json` avec des données **fake** (34 journées × calendrier complet, pas seulement Le Mans FC) pour ne pas bloquer le développement UI — round-robin généré (18 clubs, aller-retour), dates étalées août→mai comme une vraie saison
 - [x] Créer `src/types/match.ts` (interface `Match`, `Competition`, `Club`) — le type `Match` inclut dès le départ `journee`, `date`, `domicile`, `exterieur`, `score: { domicile: number | null; exterieur: number | null }`
-- [ ] Substituer les données fake par les vraies données (transmises par Baptiste dans une prochaine étape)
+- [ ] Substituer les données fake par les vraies données — **différé volontairement** : Baptiste transmettra les vraies données après la phase de scraping (Phase 2/6), pas avant
 
 ### 1.2 Composants affiche
 
@@ -73,14 +73,16 @@ public/
 - [ ] `react-pdf` uniquement si les deux options précédentes échouent réellement (coût : réimplémentation complète du design dans un moteur de rendu séparé)
 - [x] Bouton "Imprimer"
 
-> ⚠️ Avec les données fake actuelles, la colonne la plus dense (17 matchs/5 mois) dépasse la hauteur A4 d'environ 10mm (mesuré à l'écran, budget vertical ~220mm dispo pour ~230mm de contenu). Le calendrier réel de Le Mans FC (V1, 18 matchs/6 mois sur la colonne la plus dense) tenait sur une page — à revérifier une fois les vraies données substituées (1.1) plutôt que d'ajuster le CSS pour un jeu de données temporaire.
+> ✅ Dépassement mesuré empiriquement (`agent-browser`) à 307,12mm pour 297mm dispo (colonne la plus dense : 18 lignes/5 mois avec les données fake). Résolu en resserrant `MatchRow` (`py-[0.9mm]`→`py-[0.6mm]`) et `MonthBlock` (`mt-[2.5mm]`→`mt-[2mm]`) — contenu réel désormais à 286,4mm, soit 10,6mm de marge sous 297mm, ce qui couvre aussi le cas réel V1 (18 matchs/6 mois). Cf. [ZBLK-20260702232209-1](../.claude/memory/archive/blockers/ZBLK-20260702232209-1.md).
+>
+> ✅ Re-vérifié empiriquement (`agent-browser`) le 2026-07-04 après suppression du libellé sous `ScoreBox`, agrandissement des lignes (`py-[1.5mm]`) et des polices (date/match/header/footer) : la feuille reste calée à 297mm exacts, footer à ~3,5mm du bord bas (colonne la plus dense : 18 lignes/5 mois). Toujours sans marge de rechange excessive mais aucun débordement constaté.
 
 ### 1.4 Logos
 
 - [x] Télécharger logos Ligue 1 26/27 depuis repo luukhopman → `/public/logos/ligue1/` (16 clubs saison courante + Troyes depuis `history/2022-23/`)
 - [x] Logo LMFC + logo Ligue 1 McDonald's en `/public/logos/` — extraits directement des data URI base64 déjà embarquées dans `docs/affiche_lemans_A4_v8.html` (V1), pas besoin de redemander l'asset à Baptiste
 - [x] Icônes Lucide `house` et `plane` intégrées via `lucide-react` (déjà une dépendance du projet, préféré au SVG `symbol`/`use` inline de la V1)
-- [ ] Vérifier les conditions d'usage des logos/marques avant toute diffusion publique (cf. Phase 7 — déjà trackée comme blocker ouvert BLK-001)
+- [x] Vérifier les conditions d'usage des logos/marques avant toute diffusion publique (cf. Phase 7) — vérifié 2026-07-02, aucune autorisation trouvée, reste un blocker ouvert [BLK-001](../.claude/memory/blockers/BLK-001.md) tant que la mise en public n'est pas décidée
 
 ---
 
@@ -156,7 +158,7 @@ public/
 **Objectif** : passer du statut outil perso à outil partageable, une fois les phases précédentes stabilisées.
 
 - [ ] Ajouter le disclaimer "Application non officielle — projet de fan, tous droits réservés à leurs propriétaires respectifs"
-- [ ] Vérifier les conditions d'usage des logos clubs/ligue (cf. Phase 1.4)
+- [x] Vérifier les conditions d'usage des logos clubs/ligue (cf. Phase 1.4) — vérifié, aucune autorisation trouvée (ni sur le repo source, ni via la LFP) : cf. [BLK-001](../.claude/memory/blockers/BLK-001.md), reste un blocage tant que le statut public n'est pas éclairci.
 - [ ] Confirmer l'hébergement définitif (Vercel) et le domaine
 - [ ] Partage direct de l'affiche via URL paramétrique (`?club=lemans&saison=2627`) — les scores affichés viennent du JSON canonique, pas d'un état à embarquer dans l'URL
 
@@ -190,4 +192,4 @@ public/
 
 ## En cours
 
-> Phase 0 terminée (2026-07-01). Phase 1 (affiche statique Le Mans FC) : composants + données fake + logos + impression CSS faits (2026-07-02) — reste le test d'impression physique par Baptiste et la substitution des données réelles. Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)). Phases 3, 4 et 5 terminées et committées sur la branche `phase-2_3_4_5` (2026-07-03) — couleurs extraites via colorthief depuis les logos PNG pour les 18 clubs. Prochaine étape : merger `phase-2_3_4_5` → `main`.
+> Phase 0 terminée (2026-07-01). **Phase 1 validée (2026-07-04)** : composants, logos, impression CSS/overflow et lisibilité (tailles de police lignes/header/footer) terminés, conditions d'usage des logos vérifiées (2026-07-02). Reste 2 tâches non automatisables, volontairement reportées : (1) substituer les données fake par les vraies données Le Mans FC (1.1) — après la phase de scraping (Phase 2/6), pas avant ; (2) test d'impression physique multi-navigateurs/imprimantes par Baptiste (1.3). Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)). Phases 3, 4 et 5 terminées et committées sur la branche `phase-2_3_4_5` (2026-07-03) — couleurs extraites via colorthief depuis les logos PNG pour les 18 clubs. Prochaine étape : merger `phase-2_3_4_5` → `main`.

@@ -3,13 +3,13 @@
     "id": "lemans",
     "name": "Le Mans FC",
     "shortName": "LE MANS",
-    "logo": "/logos/ligue1/lemans.svg",
+    "logo": "/logos/ligue1/lemans.png",
     "colors": {
-      "primary": "#a51820",
-      "primaryVariant": "#6e0b12",
-      "secondary": "#1a1a1a",
-      "secondaryVariant": "#a6a6a6",
-      "accent": "#ffd84d"
+      "primary": "#b72e00",
+      "primaryVariant": "#711d00",
+      "secondary": "#181219",
+      "secondaryVariant": "#c3b0c6",
+      "accent": "#ecc545"
     }
   },
   {

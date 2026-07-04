@@ -13,7 +13,7 @@ export const PosterHeader = ({ club, competition }: PosterHeaderProps) => (
         Calendrier {seasonShort(competition.season)}
         <br />— Résultats —
       </h1>
-      <div className="text-white/60 text-[6.5pt] tracking-[1.5pt] uppercase mt-[1.5mm]">
+      <div className="text-white/60 text-[7.5pt] tracking-[1.5pt] uppercase mt-[1.5mm]">
         {club.name} &nbsp;·&nbsp; {competition.name} &nbsp;·&nbsp; Saison{" "}
         {competition.season.replace("-", "–")}
       </div>

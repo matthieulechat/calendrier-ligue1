@@ -1,4 +1,4 @@
-full---
+---
 id: ZBLK-003
 type: blocker
 date: 2026-07-02
