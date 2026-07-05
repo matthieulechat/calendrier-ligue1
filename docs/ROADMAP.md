@@ -73,7 +73,7 @@ public/
 - [ ] `react-pdf` uniquement si les deux options précédentes échouent réellement (coût : réimplémentation complète du design dans un moteur de rendu séparé)
 - [x] Bouton "Imprimer"
 
-> ✅ Dépassement mesuré empiriquement (`agent-browser`) à 307,12mm pour 297mm dispo (colonne la plus dense : 18 lignes/5 mois avec les données fake). Résolu en resserrant `MatchRow` (`py-[0.9mm]`→`py-[0.6mm]`) et `MonthBlock` (`mt-[2.5mm]`→`mt-[2mm]`) — contenu réel désormais à 286,4mm, soit 10,6mm de marge sous 297mm, ce qui couvre aussi le cas réel V1 (18 matchs/6 mois). Cf. [ZBLK-20260702232209-1](../.claude/memory/archive/blockers/ZBLK-20260702232209-1.md).
+> ✅ Dépassement mesuré empiriquement (`agent-browser`) à 307,12mm pour 297mm dispo (colonne la plus dense : 18 lignes/5 mois avec les données fake). Résolu en resserrant `MatchRow` (`py-[0.9mm]`→`py-[0.6mm]`) et `MonthBlock` (`mt-[2.5mm]`→`mt-[2mm]`) — contenu réel désormais à 286,4mm, soit 10,6mm de marge sous 297mm, ce qui couvre aussi le cas réel V1 (18 matchs/6 mois). Cf. [ZBLK-005](../.claude/memory/archive/blockers/ZBLK-005.md).
 >
 > ✅ Re-vérifié empiriquement (`agent-browser`) le 2026-07-04 après suppression du libellé sous `ScoreBox`, agrandissement des lignes (`py-[1.5mm]`) et des polices (date/match/header/footer) : la feuille reste calée à 297mm exacts, footer à ~3,5mm du bord bas (colonne la plus dense : 18 lignes/5 mois). Toujours sans marge de rechange excessive mais aucun débordement constaté.
 
@@ -92,7 +92,7 @@ public/
 
 - [x] Tester des APIs foot gratuites/officielles pour Ligue 1 : openligadb, football-data.org, API-Football
 - [x] Vérifier pour chaque candidate : fixtures **ET** résultats disponibles (pas juste le calendrier), délai de mise à jour des résultats, limites de requêtes/coût
-- [x] Décision go/no-go : **API-Football retenue** (league ID `61`, endpoint `/fixtures`, plan gratuit 100 req/jour) — voir [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)
+- [x] Décision go/no-go : **API-Football retenue** (league ID `61`, endpoint `/fixtures`, plan gratuit 100 req/jour) — voir [BDR-004](../.claude/memory/decisions/BDR-004.md)
 
 > **Résultats du spike** (2026-07-02) :
 >
@@ -192,4 +192,4 @@ public/
 
 ## En cours
 
-> Phase 0 terminée (2026-07-01). **Phase 1 validée (2026-07-04)** : composants, logos, impression CSS/overflow et lisibilité (tailles de police lignes/header/footer) terminés, conditions d'usage des logos vérifiées (2026-07-02). Reste 2 tâches non automatisables, volontairement reportées : (1) substituer les données fake par les vraies données Le Mans FC (1.1) — après la phase de scraping (Phase 2/6), pas avant ; (2) test d'impression physique multi-navigateurs/imprimantes par Baptiste (1.3). Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-20260702223842-1](../.claude/memory/decisions/BDR-20260702223842-1.md)). Phases 3, 4 et 5 terminées et committées sur la branche `phase-2_3_4_5` (2026-07-03) — couleurs extraites via colorthief depuis les logos PNG pour les 18 clubs. Prochaine étape : merger `phase-2_3_4_5` → `main`.
+> Phase 0 terminée (2026-07-01). **Phase 1 validée (2026-07-04)** : composants, logos, impression CSS/overflow et lisibilité (tailles de police lignes/header/footer) terminés, conditions d'usage des logos vérifiées (2026-07-02). Reste 2 tâches non automatisables, volontairement reportées : (1) substituer les données fake par les vraies données Le Mans FC (1.1) — après la phase de scraping (Phase 2/6), pas avant ; (2) test d'impression physique multi-navigateurs/imprimantes par Baptiste (1.3). Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-004](../.claude/memory/decisions/BDR-004.md)). Phases 3, 4 et 5 terminées et committées sur la branche `phase-2_3_4_5` (2026-07-03) — couleurs extraites via colorthief depuis les logos PNG pour les 18 clubs. Prochaine étape : merger `phase-2_3_4_5` → `main`.

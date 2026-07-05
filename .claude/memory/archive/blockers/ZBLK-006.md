@@ -1,11 +1,11 @@
 ---
-id: ZBLK-20260702232209-3
+id: ZBLK-006
 type: blocker
 date: 2026-07-02
 tags: [taskkill, dev-server, port, process, agent-browser, postmortem]
 ---
 
-# ZBLK-20260702232209-3 — Serveur dev de Baptiste tué par erreur en nettoyant des process de test par port
+# ZBLK-006 — Serveur dev de Baptiste tué par erreur en nettoyant des process de test par port
 
 | Friction                                                                                                                                                                                                     | Cause réelle                                                                                                                                                                                                                                | Solution                                                                                                                                                                           | Statut |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -13,4 +13,4 @@ tags: [taskkill, dev-server, port, process, agent-browser, postmortem]
 
 ## Références
 
-- Cf. aussi le pattern extrait pour usage futur : GLRN-20260702232209-4 (mémoire globale, non lié en local — voir `~/.claude/global-memory/learnings/GLRN-20260702232209-4.md`)
+- Cf. aussi le pattern extrait pour usage futur : GLRN-183 (mémoire globale, non lié en local — voir `~/.claude/global-memory/learnings/GLRN-183.md`)
