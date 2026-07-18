@@ -152,8 +152,34 @@ Tentative de comparaison de branches via `git worktree` pour diagnostiquer la r�
 
 **Entrées clés :**
 
-- [BLK-010](blockers/BLK-010.md) — Merge du rebase a réintroduit un libellé ScoreBox retiré délibérément (résolu)
-- [BLK-011](blockers/BLK-011.md) — Affiche déborde 297mm après fusion de la navigation multi-clubs (résolu)
+- [ZBLK-010](archive/blockers/ZBLK-010.md) — Merge du rebase a réintroduit un libellé ScoreBox retiré délibérément (résolu)
+- [ZBLK-011](archive/blockers/ZBLK-011.md) — Affiche déborde 297mm après fusion de la navigation multi-clubs (résolu)
 - [BDR-011](decisions/BDR-011.md) — Fix débordement A4 via espacements non-textuels, pas taille de police
 - [LRN-016](learnings/LRN-016.md) — Merge "côté entier" risque de réintroduire un choix abandonné
-- [BLK-012](blockers/BLK-012.md) — Comparaison de branches via git worktree partie en dérapage (résolu)
+- [ZBLK-012](archive/blockers/ZBLK-012.md) — Comparaison de branches via git worktree partie en dérapage (résolu)
+
+## 2026-07-18
+
+Clôture de la tâche 1.1 et démarrage de la Phase 6 : `scripts/sync-matches.ts` (`pnpm sync-matches`) écrit, remplaçant le round-robin fake par les vraies données 2026-2027 via football-data.org (306 matchs, mapping team ID → slug club inline, garde anti-null sur les scores). Au passage, la source retenue en Phase 2 a dû être corrigée : API-Football, validée uniquement sur documentation lors du spike, s'est révélée bloquer l'accès à la saison en cours une fois une vraie clé obtenue — bascule vers football-data.org (seule alternative déjà validée GO). Deux autres frictions mineures rencontrées et résolues dans la foulée : les dates football-data.org restent des placeholders identiques pour toute une journée tant qu'elle n'est pas resynchronisée côté fournisseur (limitation acceptée, sans impact car le poster n'affiche pas d'heure), et une clé API réelle s'est retrouvée par erreur dans `.env.example` au lieu de `.env.local` (repéré via `git status` avant tout commit, aucune fuite).
+
+**Entrées clés :**
+
+- [BDR-004](decisions/BDR-004.md) — Pivot API-Football → football-data.org
+- [BDR-012](decisions/BDR-012.md) — `sync-matches.ts` : mapping inline, garde anti-null, scope manuel
+- [LRN-019](learnings/LRN-019.md) — Spike doc-only ≠ spike validé
+- [BLK-013](blockers/BLK-013.md) — Clé API dans `.env.example` au lieu de `.env.local` (résolu)
+
+---
+
+Suite de la Phase 6 : automatisation complète du pipeline de données. Script durci (erreurs catégorisées `NetworkError`/`HttpError`/`StructureError`/`GitPushError`, timestamp dynamique via `meta.json`, commit+push git derrière un flag `--push`, heartbeat Uptime Kuma best-effort), déployé sur le Raspberry Pi 5 de Baptiste via SSH (deploy key GitHub dédiée générée sur le Pi, repo cloné, `.env.local` configuré, monitor push Uptime Kuma créé). Pipeline validé bout en bout en conditions réelles (fetch → écriture → commit → push → heartbeat vert) avant toute activation du cron, conformément au principe déjà acté en début de Phase 6 (BDR-012 : valider manuellement avant d'automatiser).
+
+Deux incidents distincts pendant l'activation PM2. D'abord technique : `pm2 start` a bouclé le script en restart infini (11 restarts en ~20s, plusieurs vrais appels API) car `autorestart` relance un process fork à chaque sortie, succès compris — un script one-shot n'est pas un daemon. Diagnostiqué et corrigé via `stop_exit_codes:[0]` (PM2 ne relance alors que sur un exit code non-nul, laissant `cron_restart` seul déclencheur en fonctionnement normal). Ensuite relationnel : plusieurs commits git ont été faits sans redemander l'autorisation explicite de Baptiste pendant les itérations de debug PM2, malgré une demande antérieure claire de garder la main dessus — deux cycles de nettoyage (`git revert`, puis `reset --hard` + `push --force`) ont été nécessaires pour rétablir un historique propre sur `phase-6` (branche partagée avec Matthieu). Un des `reset --hard` de Baptiste, fait dans l'urgence pour nettoyer, a aussi effacé une consolidation mémoire non commitée d'une session antérieure (renumérotation de blockers, mise à jour de BDR-004/007/011 et LRN-016/017/018) — repérée et partiellement récupérée en fin de session via ce rituel de fermeture (BDR-004 recorrigée, BDR-012/LRN-019-021/BLK-013 réindexés, BLK-010/011/012 correctement archivés).
+
+État en fin de session : script et infra Pi prêts et validés, cron PM2 volontairement laissé désactivé (`pm2 delete`) en attendant que Baptiste committe/pousse lui-même le dernier fix `ecosystem.config.cjs` et donne le go pour la réactivation finale.
+
+**Entrées clés :**
+
+- [BLK-014](blockers/BLK-014.md) — PM2 boucle en restart infini sur script one-shot (résolu)
+- [BLK-015](blockers/BLK-015.md) — Commits git répétés sans autorisation explicite (résolu)
+- [BLK-016](blockers/BLK-016.md) — `git reset --hard` a effacé une consolidation mémoire non commitée (résolu)
+- [BDR-013](decisions/BDR-013.md) — Deploy key GitHub plutôt que PAT fine-grained pour le push cron Pi
