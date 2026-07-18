@@ -15,8 +15,15 @@ import { mergeMatches } from "@/lib/scores";
 const DEFAULT_CLUB_ID = "lemans";
 const STORAGE_KEY = `scores:${ligue1Competition.id}:${ligue1Competition.season}`;
 
+function getInitialClubId() {
+  const fromUrl = new URLSearchParams(window.location.search).get("club");
+  return ligue1Clubs.some((c) => c.id === fromUrl)
+    ? (fromUrl as string)
+    : DEFAULT_CLUB_ID;
+}
+
 function App() {
-  const [clubId, setClubId] = useState(DEFAULT_CLUB_ID);
+  const [clubId, setClubId] = useState(getInitialClubId);
   const [printBlank, setPrintBlank] = useState(true);
   const [viewMode, setViewMode] = useState<"single" | "grid">("single");
   const { scores, setScore } = useLocalScores(STORAGE_KEY);
@@ -55,6 +62,12 @@ function App() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [viewMode, goToClub]);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("club", clubId);
+    window.history.replaceState(null, "", url);
+  }, [clubId]);
 
   return (
     <div className="bg-[#2e2e2e] flex flex-col items-center min-h-screen p-[22px] font-['Arial_Narrow',Arial,Helvetica,sans-serif] [print-color-adjust:exact] [-webkit-print-color-adjust:exact] print:bg-none print:p-0 print:block print:min-h-0">
