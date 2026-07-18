@@ -4,6 +4,7 @@ import {
   ligue1Clubs,
   ligue1Competition,
   ligue1Matches,
+  ligue1UpdatedAt,
 } from "@/adapters/ligue1";
 import { AppToolbar } from "@/components/AppToolbar";
 import { PosterGrid } from "@/components/poster/PosterGrid";
@@ -12,7 +13,6 @@ import { useLocalScores } from "@/hooks/useLocalScores";
 import { mergeMatches } from "@/lib/scores";
 
 const DEFAULT_CLUB_ID = "lemans";
-const UPDATED_AT = "02/07/2026 à 00h00";
 const STORAGE_KEY = `scores:${ligue1Competition.id}:${ligue1Competition.season}`;
 
 function App() {
@@ -78,7 +78,7 @@ function App() {
           competition={ligue1Competition}
           matches={matches}
           clubs={ligue1Clubs}
-          updatedAt={UPDATED_AT}
+          updatedAt={ligue1UpdatedAt}
           onScoreChange={setScore}
           printBlank={printBlank}
         />
@@ -87,7 +87,7 @@ function App() {
           clubs={sortedClubs}
           competition={ligue1Competition}
           matches={matches}
-          updatedAt={UPDATED_AT}
+          updatedAt={ligue1UpdatedAt}
           onSelectClub={(id) => {
             setClubId(id);
             setViewMode("single");
