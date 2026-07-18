@@ -52,7 +52,7 @@ public/
 
 - [x] Créer `src/data/ligue1-2627/matches.json` avec des données **fake** (34 journées × calendrier complet, pas seulement Le Mans FC) pour ne pas bloquer le développement UI — round-robin généré (18 clubs, aller-retour), dates étalées août→mai comme une vraie saison
 - [x] Créer `src/types/match.ts` (interface `Match`, `Competition`, `Club`) — le type `Match` inclut dès le départ `journee`, `date`, `domicile`, `exterieur`, `score: { domicile: number | null; exterieur: number | null }`
-- [ ] Substituer les données fake par les vraies données — **différé volontairement** : Baptiste transmettra les vraies données après la phase de scraping (Phase 2/6), pas avant
+- [x] Substituer les données fake par les vraies données — fait le 2026-07-18 via `scripts/sync-matches.ts` (Phase 6), fetch football-data.org (306 matchs, saison 2026-08-22 → 2027-05-29)
 
 ### 1.2 Composants affiche
 
@@ -92,13 +92,13 @@ public/
 
 - [x] Tester des APIs foot gratuites/officielles pour Ligue 1 : openligadb, football-data.org, API-Football
 - [x] Vérifier pour chaque candidate : fixtures **ET** résultats disponibles (pas juste le calendrier), délai de mise à jour des résultats, limites de requêtes/coût
-- [x] Décision go/no-go : **API-Football retenue** (league ID `61`, endpoint `/fixtures`, plan gratuit 100 req/jour) — voir [BDR-004](../.claude/memory/decisions/BDR-004.md)
+- [x] Décision go/no-go : **football-data.org retenue** (code compétition `FL1`, endpoint `/matches`, plan gratuit 10 req/min) — voir [BDR-004](../.claude/memory/decisions/BDR-004.md)
 
 > **Résultats du spike** (2026-07-02) :
 >
 > - **openligadb** → NO-GO : couverture Ligue 1 abandonnée depuis la saison 2017/2018, aucune donnée disponible pour 2026/2027.
-> - **football-data.org** → GO (alternative viable, non retenue) : code compétition `FL1`, endpoint `/matches` unique (fixtures + scores), plan gratuit 10 req/min, scores non temps réel sur ce plan.
-> - **API-Football** → **GO, retenue** : league ID `61`, endpoint `/fixtures` unique (fixtures + scores), plan gratuit 100 req/jour, mises à jour live (~15s) même en gratuit. Nécessite une clé API (inscription gratuite).
+> - **football-data.org** → **GO, retenue** : code compétition `FL1`, endpoint `/matches` unique (fixtures + scores), plan gratuit 10 req/min, scores non temps réel sur ce plan, mais **saison en cours accessible**.
+> - **API-Football** → GO sur la doc lue... **invalidé empiriquement le 2026-07-18** : le plan gratuit refuse l'accès à la saison en cours (`errors.plan`), la doc publique consultée lors du spike ne mentionnait pas cette restriction (cf. [LRN-019](../.claude/memory/learnings/LRN-019.md)). Écarté pour un outil perso (nécessiterait un plan payant).
 > - Aucune des deux options GO n'offre de garantie de SLA/uptime — le pipeline (Phase 6) doit prévoir un fallback sur les données précédentes en cas d'échec ponctuel (déjà planifié).
 
 ---
@@ -141,15 +141,17 @@ public/
 
 **Objectif** : maintenir `ligue1-2627/matches.json` à jour, dates et scores compris, tout au long de la saison.
 
-- [ ] Si une API viable a été retenue en Phase 2 : intégration directe (pas de scraping custom)
-- [ ] Si aucune API viable : scraping unique en début de saison de la structure du calendrier (34 journées, appariements, dates encore provisoires — les droits TV ne sont pas tous attribués à ce stade)
-- [ ] Script planifié via PM2 (`cron_restart`) sur le Raspberry Pi 5 (`scripts/scrape-ligue1.ts`), en réutilisant l'infra PM2 déjà en place pour d'autres tâches planifiées — récupère **scores ET dates mises à jour**, fréquence à définir par compétition (ex. lundi pour Ligue 1)
-- [ ] Le script commit + push automatiquement le JSON mis à jour (clé de déploiement dédiée, accès limité à ce repo) → redéploiement Vercel automatique
-- [ ] Mise à jour du timestamp affiché sur l'affiche ("mis à jour le...")
-- [ ] **Distinguer les erreurs par catégorie dans les try/catch**, pas juste attraper globalement — `NetworkError` (réseau/DNS/timeout), `HttpError` (status 4xx/5xx), `StructureError` (assertion explicite post-parsing : ex. `matches.length !== 380`, un changement de structure HTML ne lève souvent aucune exception, il faut valider activement la forme des données extraites), `GitPushError` (échec du commit/push, distinct du scraping lui-même)
-- [ ] Heartbeat Uptime Kuma sur ce cron : push actif d'un état "down" avec la catégorie d'erreur dans le message dès le `catch` (pas seulement déduit par timeout d'absence de heartbeat) — permet de savoir immédiatement où chercher sans fouiller les logs du Pi
-- [ ] `maxRestarts`/backoff sur la config PM2 : un restart automatique n'aide qu'en cas d'échec réseau transitoire ; en cas de `StructureError` (site changé), relancer immédiatement échoue à l'identique — l'alerte doit être traitée comme "aller corriger le scraper", pas "ça va se réparer tout seul"
-- [ ] Fallback sur données précédentes si une exécution échoue (ne jamais écraser avec un résultat vide)
+- [x] Si une API viable a été retenue en Phase 2 : intégration directe (pas de scraping custom) — fait le 2026-07-18 : `scripts/sync-matches.ts` (`pnpm sync-matches`), fetch football-data.org, mapping team ID → slug club inline, garde anti-null (ne jamais écraser un score existant par un `null` API). Lancé manuellement pour l'instant (scope choisi : script manuel d'abord, avant d'automatiser).
+- [x] Si aucune API viable : scraping unique en début de saison de la structure du calendrier (34 journées, appariements, dates encore provisoires — les droits TV ne sont pas tous attribués à ce stade) — **sans objet**, football-data.org retenu
+- [x] Script planifié via PM2 (`cron_restart`) sur le Raspberry Pi 5, en réutilisant l'infra PM2 déjà en place pour d'autres tâches planifiées — récupère **scores ET dates mises à jour**, fréquence à définir par compétition (ex. lundi pour Ligue 1) — `ecosystem.config.cjs` écrit (cron lundi 6h, `--push`), reste à déployer sur le Pi (clé de déploiement SSH, `.env.local`, `pm2 start`)
+- [x] Le script commit + push automatiquement le JSON mis à jour → redéploiement Vercel automatique — code fait le 2026-07-18 (`pushToGit()`, flag `--push`, `execFileSync` git add/commit/push, no-op si aucun diff), **pas encore exercé en conditions réelles** : nécessite la clé de déploiement dédiée sur le Pi (cf. item PM2 ci-dessus)
+- [x] Mise à jour du timestamp affiché sur l'affiche ("mis à jour le...") — fait le 2026-07-18 : le script écrit `src/data/ligue1-2627/meta.json` (`updatedAt` formaté fr-FR), exposé via `ligue1UpdatedAt` dans l'adapter, remplace la constante hardcodée dans `App.tsx`
+- [x] **Distinguer les erreurs par catégorie dans les try/catch**, pas juste attraper globalement — fait le 2026-07-18 : `NetworkError` (échec `fetch`), `HttpError` (status non-ok), `StructureError` (réponse vide/count ≠ 306, team ID inconnu, clé API manquante), `GitPushError` (échec commit/push) — catch top-level, log `[Catégorie] message`, `process.exitCode = 1`
+- [x] Heartbeat Uptime Kuma sur ce cron : push actif d'un état "down" avec la catégorie d'erreur dans le message dès le `catch` — fait le 2026-07-18 : `pushHeartbeat()` best-effort vers `UPTIME_KUMA_PUSH_URL` (no-op si var absente), appelé en succès (`up`) et en échec (`down` + catégorie), **URL réelle à configurer** une fois l'instance Uptime Kuma du Pi identifiée
+- [x] `maxRestarts`/backoff sur la config PM2 — fait le 2026-07-18 : `ecosystem.config.cjs` (`max_restarts: 3`, `restart_delay: 60000`, `exp_backoff_restart_delay: 100`), pas encore déployé
+- [x] Fallback sur données précédentes si une exécution échoue (ne jamais écraser avec un résultat vide) — déjà garanti structurellement : `writeFileSync` n'intervient qu'après validation complète (aucune écriture si une erreur catégorisée est levée avant), renforcé le 2026-07-18 par la validation stricte `matches.length === 306`
+
+> ⚠️ Constaté le 2026-07-18 : football-data.org renvoie une date/heure **placeholder identique pour tous les matchs d'une même journée** tant que le calendrier officiel n'est pas resynchronisé côté fournisseur (vérifié sur la journée 1, 5 semaines à l'avance — ligue1.com avait déjà les vraies dates). Décision : pas de scraping complémentaire pour corriger ça, on relance `pnpm sync-matches` plus près de chaque journée pour récupérer les dates au fur et à mesure qu'elles se confirment. Le poster n'affiche que la date/jour (pas d'heure de coup d'envoi), donc l'impact reste limité. Cf. [LRN-020](../.claude/memory/learnings/LRN-020.md).
 
 ---
 
@@ -192,4 +194,6 @@ public/
 
 ## En cours
 
-> Phase 0 terminée (2026-07-01). **Phase 1 validée (2026-07-04)** : composants, logos, impression CSS/overflow et lisibilité (tailles de police lignes/header/footer) terminés, conditions d'usage des logos vérifiées (2026-07-02). Reste 2 tâches non automatisables, volontairement reportées : (1) substituer les données fake par les vraies données Le Mans FC (1.1) — après la phase de scraping (Phase 2/6), pas avant ; (2) test d'impression physique multi-navigateurs/imprimantes par Baptiste (1.3). Phase 2 (spike de faisabilité données) terminée (2026-07-02) : API-Football retenue (cf. Phase 6, [BDR-004](../.claude/memory/decisions/BDR-004.md)). Phases 3, 4 et 5 terminées et committées sur la branche `phase-2_3_4_5` (2026-07-03) — couleurs extraites via colorthief depuis les logos PNG pour les 18 clubs. Prochaine étape : merger `phase-2_3_4_5` → `main`.
+> Phases 0 à 5 terminées et mergées sur `main`. **Phase 1.1 close le 2026-07-18** : `scripts/sync-matches.ts` (`pnpm sync-matches`) a remplacé le round-robin fake par les 306 vrais matchs 2026-2027 (fetch football-data.org), clôturant du même coup le 1er point de la Phase 6 (intégration API directe). Source retenue en Phase 2 corrigée le même jour : API-Football invalidée à l'usage (plan gratuit sans accès à la saison en cours, cf. [LRN-019](../.claude/memory/learnings/LRN-019.md)), pivot vers football-data.org — voir [BDR-004](../.claude/memory/decisions/BDR-004.md) mis à jour et [BDR-012](../.claude/memory/decisions/BDR-012.md) pour les choix du script (mapping team ID inline, garde anti-null, scope manuel assumé). Limitation connue et acceptée : dates placeholder pour les journées lointaines tant que football-data.org ne les a pas resynchronisées (cf. note Phase 6 ci-dessus, [LRN-020](../.claude/memory/learnings/LRN-020.md)).
+>
+> **Reste à faire** : (1) test d'impression physique multi-navigateurs/imprimantes par Baptiste (1.3/4, toujours différé — décision du 2026-07-18 : après mise en place du script de données réelles, ce qui est maintenant fait, donc prochain jalon naturel) ; (2) automatisation Phase 6 — cron PM2 RPi, commit+push auto, timestamp affiché, catégorisation fine des erreurs, heartbeat Uptime Kuma (`sync-matches.ts` existe déjà et sera réutilisé tel quel, scope manuel choisi pour l'instant) ; (3) Phase 7 (mise en public), bloquée par [BLK-001](../.claude/memory/blockers/BLK-001.md) (licences logos, non résolu).
