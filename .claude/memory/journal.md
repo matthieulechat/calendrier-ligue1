@@ -167,7 +167,7 @@ Clôture de la tâche 1.1 et démarrage de la Phase 6 : `scripts/sync-matches.ts
 - [BDR-004](decisions/BDR-004.md) — Pivot API-Football → football-data.org
 - [BDR-012](decisions/BDR-012.md) — `sync-matches.ts` : mapping inline, garde anti-null, scope manuel
 - [LRN-019](learnings/LRN-019.md) — Spike doc-only ≠ spike validé
-- [BLK-013](blockers/BLK-013.md) — Clé API dans `.env.example` au lieu de `.env.local` (résolu)
+- [ZBLK-013](archive/blockers/ZBLK-013.md) — Clé API dans `.env.example` au lieu de `.env.local` (résolu)
 
 ---
 
@@ -179,7 +179,18 @@ Deux incidents distincts pendant l'activation PM2. D'abord technique : `pm2 star
 
 **Entrées clés :**
 
-- [BLK-014](blockers/BLK-014.md) — PM2 boucle en restart infini sur script one-shot (résolu)
-- [BLK-015](blockers/BLK-015.md) — Commits git répétés sans autorisation explicite (résolu)
-- [BLK-016](blockers/BLK-016.md) — `git reset --hard` a effacé une consolidation mémoire non commitée (résolu)
+- [ZBLK-014](archive/blockers/ZBLK-014.md) — PM2 boucle en restart infini sur script one-shot (résolu)
+- [ZBLK-015](archive/blockers/ZBLK-015.md) — Commits git répétés sans autorisation explicite (résolu)
+- [ZBLK-016](archive/blockers/ZBLK-016.md) — `git reset --hard` a effacé une consolidation mémoire non commitée (résolu)
 - [BDR-013](decisions/BDR-013.md) — Deploy key GitHub plutôt que PAT fine-grained pour le push cron Pi
+
+## 2026-07-18
+
+Démarrage de la Phase 7 (mise en public). Avant de commencer, clarification du statut de [BLK-001](blockers/BLK-001.md) (licences logos non résolues) : Baptiste choisit d'accepter le risque légal et de procéder quand même, plutôt que d'attendre une autorisation ou de retirer les logos officiels ([BDR-014](decisions/BDR-014.md)). Deux items techniques implémentés sans incident : disclaimer "Application non officielle" (fusionné sur la ligne du timestamp dans `PosterFooter` pour ne pas ajouter de hauteur) et partage d'affiche via URL paramétrique (`?club=...`, lecture au montage + `history.replaceState` à la navigation).
+
+Le reste de la session a été consommé par un débordement d'impression A4 signalé par Baptiste juste après l'ajout du disclaimer, avec un fil de diagnostic particulièrement chaotique : plusieurs allers-retours sur des fausses pistes (mesure `scrollHeight` trompeuse à cause du clamp `min-height`, sur-correction d'espacement cassant le rendu puis annulée, hypothèse "marges Chrome par défaut" écartée empiriquement par Baptiste lui-même) avant d'isoler la vraie cause : le contenu dépassait réellement 297mm de ~2mm avec les vraies données de saison (306 matchs, jamais retestées à l'impression depuis leur intégration le 2026-07-18), combiné à une fragmentation visuelle du footer à la limite de page et à un `flex-1` resté sans effet faute de parent `display:flex`. Fix final validé par Baptiste en conditions d'impression réelles : `break-inside-avoid` + restructuration `flex flex-col` de `PosterSheet` + resserrement modéré de `MatchRow`. Trois patterns CSS génériques extraits en learnings, potentiellement réutilisables hors de ce projet.
+
+**Entrées clés :**
+
+- [BDR-014](decisions/BDR-014.md) — Accepter le risque légal logos, procéder à la Phase 7
+- [BLK-017](blockers/BLK-017.md) — Débordement impression A4 après vraies données de saison (résolu)

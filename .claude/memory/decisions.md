@@ -19,3 +19,4 @@ register: decisions
 | [BDR-011](decisions/BDR-011.md) | 2026-07-05 | Fix débordement A4 via espacements non-textuels, pas taille de police        | #print-layout #css #page-overflow #readability #poster #agent-browser                   | actif  |
 | [BDR-012](decisions/BDR-012.md) | 2026-07-18 | `sync-matches.ts` : mapping team ID inline, garde anti-null, scope manuel    | #football-data-org #sync-matches #phase6 #script #mapping #null-guard #ligue1           | actif  |
 | [BDR-013](decisions/BDR-013.md) | 2026-07-18 | Deploy key GitHub (repo unique) plutôt que PAT pour le push cron Pi          | #github #deploy-key #security #pm2 #ci-cd #phase6                                       | actif  |
+| [BDR-014](decisions/BDR-014.md) | 2026-07-18 | Accepter le risque légal logos, procéder à la Phase 7                        | #logos #licences #legal #risk-acceptance #phase-7 #mise-en-public #ligue1               | actif  |
