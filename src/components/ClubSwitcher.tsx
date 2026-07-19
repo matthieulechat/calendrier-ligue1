@@ -81,6 +81,7 @@ export const ClubSwitcher = ({
       variant="outline"
       size="sm"
       onClick={onToggleViewMode}
+      className="hidden lg:inline-flex"
     >
       {viewMode === "single" ? (
         <>
@@ -94,7 +95,7 @@ export const ClubSwitcher = ({
     </Button>
 
     {viewMode === "single" && (
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+      <div className="hidden items-center gap-2 text-xs text-muted-foreground lg:flex">
         <span>Imprimer vide</span>
         <Switch
           checked={!printBlank}

@@ -159,10 +159,10 @@ public/
 
 **Objectif** : passer du statut outil perso à outil partageable, une fois les phases précédentes stabilisées.
 
-- [ ] Ajouter le disclaimer "Application non officielle — projet de fan, tous droits réservés à leurs propriétaires respectifs"
-- [x] Vérifier les conditions d'usage des logos clubs/ligue (cf. Phase 1.4) — vérifié, aucune autorisation trouvée (ni sur le repo source, ni via la LFP) : cf. [BLK-001](../.claude/memory/blockers/BLK-001.md), reste un blocage tant que le statut public n'est pas éclairci.
+- [x] Ajouter le disclaimer "Application non officielle — projet de fan, tous droits réservés à leurs propriétaires respectifs" — fait dans `PosterFooter.tsx`
+- [x] Vérifier les conditions d'usage des logos clubs/ligue (cf. Phase 1.4) — vérifié, aucune autorisation trouvée (ni sur le repo source, ni via la LFP) : cf. [BLK-001](../.claude/memory/blockers/BLK-001.md), risque accepté pour procéder à la Phase 7 ([BDR-014](../.claude/memory/decisions/BDR-014.md))
 - [ ] Confirmer l'hébergement définitif (Vercel) et le domaine
-- [ ] Partage direct de l'affiche via URL paramétrique (`?club=lemans&saison=2627`) — les scores affichés viennent du JSON canonique, pas d'un état à embarquer dans l'URL
+- [x] Partage direct de l'affiche via URL paramétrique (`?club=lemans`) — les scores affichés viennent du JSON canonique, pas d'un état à embarquer dans l'URL. Paramètre `saison` non ajouté : une seule saison existe en données pour l'instant, à ajouter seulement si une 2e saison est un jour supportée
 
 ---
 
