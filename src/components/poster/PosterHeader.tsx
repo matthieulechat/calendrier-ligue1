@@ -19,7 +19,11 @@ export const PosterHeader = ({ club, competition }: PosterHeaderProps) => (
       </div>
     </div>
     <div className="flex items-center gap-[4mm]">
-      <img className="h-[17mm] w-auto" src={club.logo} alt={club.name} />
+      <img
+        className={`h-[17mm] w-auto object-contain ${club.logoNeedsBackdrop ? "rounded-full bg-white/[92%] p-[1.5mm] [print-color-adjust:exact] [-webkit-print-color-adjust:exact]" : ""}`}
+        src={club.logo}
+        alt={club.name}
+      />
       <div className="w-[0.3mm] h-[15mm] bg-white/30 shrink-0" />
       <img
         className="h-[10mm] w-auto"

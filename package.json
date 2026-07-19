@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "colors": "tsx scripts/extract-club-colors.ts",
+    "trim-logos": "tsx scripts/trim-logos.ts",
     "sync-matches": "tsx scripts/sync-matches.ts",
     "generate-pwa-assets": "pwa-assets-generator"
   },

@@ -147,6 +147,7 @@
     "name": "Olympique de Marseille",
     "shortName": "MARSEILLE",
     "logo": "/logos/ligue1/marseille.png",
+    "logoNeedsBackdrop": true,
     "colors": {
       "primary": "#005da4",
       "primaryVariant": "#003a66",

@@ -16,6 +16,10 @@ export const PosterFooter = ({ club, updatedAt }: PosterFooterProps) => (
         projet de fan, tous droits réservés à leurs propriétaires respectifs.
       </span>
     </div>
-    <img className="h-[13mm] w-auto" src={club.logo} alt={club.name} />
+    <img
+      className={`h-[13mm] w-auto object-contain ${club.logoNeedsBackdrop ? "rounded-full bg-white/[92%] p-[1.2mm] [print-color-adjust:exact] [-webkit-print-color-adjust:exact]" : ""}`}
+      src={club.logo}
+      alt={club.name}
+    />
   </footer>
 );
