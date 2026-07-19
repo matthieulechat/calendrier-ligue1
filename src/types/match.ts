@@ -17,6 +17,8 @@ export interface Club {
   name: string;
   shortName: string;
   logo: string;
+  // ponytail: flag manuel plutôt que calcul de contraste logo/fond — un seul club concerné à ce jour
+  logoNeedsBackdrop?: boolean;
   colors?: ClubColors;
 }
 

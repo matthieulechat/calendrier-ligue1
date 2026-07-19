@@ -1,0 +1,16 @@
+---
+id: ZBLK-014
+type: blocker
+date: 2026-07-18
+tags: [pm2, cron, restart-loop, ecosystem-config, rpi]
+---
+
+# ZBLK-014 — PM2 boucle en restart infini sur script one-shot sans `stop_exit_codes`
+
+| Friction                                                                                                                                                                                                                | Cause réelle                                                                                                                                                                                                                                                                                            | Solution                                                                                                                                                                                                                                                                                   | Statut |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
+| Après `pm2 start ecosystem.config.cjs`, le job `calendrier-ligue1-sync` a redémarré 11 fois en ~20 secondes (constaté via `pm2 list`, compteur `↺`), chaque itération refaisant un vrai appel à l'API football-data.org | `autorestart: true` fait relancer PM2 un process en mode `fork` à **chaque sortie**, succès ou échec confondus — le script est one-shot (fetch + write + exit), pas un daemon. `max_restarts` ne protège que contre les crash-loops rapides (exit avant `min_uptime`), pas contre un exit normal répété | Arrêt immédiat (`pm2 stop`) puis ajout de `stop_exit_codes: [0]` dans `ecosystem.config.cjs` — PM2 ne relance alors que sur un exit code non-nul (échec réel), laissant `cron_restart` seul déclencheur en fonctionnement normal. Re-testé : `↺ 0`, statut `waiting …` stable après le run | résolu |
+
+## Références
+
+- [BDR-013](../../decisions/BDR-013.md) — décision deploy key prise pendant ce même déploiement
