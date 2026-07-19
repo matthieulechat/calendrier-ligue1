@@ -148,11 +148,11 @@
     "shortName": "MARSEILLE",
     "logo": "/logos/ligue1/marseille.png",
     "colors": {
-      "primary": "#006387",
-      "primaryVariant": "#003d54",
-      "secondary": "#725733",
-      "secondaryVariant": "#ccb08c",
-      "accent": "#7abfeb"
+      "primary": "#005da4",
+      "primaryVariant": "#003a66",
+      "secondary": "#005894",
+      "secondaryVariant": "#48b5ff",
+      "accent": "#79b1ec"
     }
   },
   {

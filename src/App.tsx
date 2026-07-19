@@ -6,7 +6,11 @@ import {
   ligue1Matches,
   ligue1UpdatedAt,
 } from "@/adapters/ligue1";
-import { AppToolbar } from "@/components/AppToolbar";
+import { AppBrandRibbon } from "@/components/AppBrandRibbon";
+import { ClubSwitcher } from "@/components/ClubSwitcher";
+import { HelpFab } from "@/components/HelpFab";
+import { PrintFab } from "@/components/PrintFab";
+import { PrintHelpDialog } from "@/components/PrintHelpDialog";
 import { PosterGrid } from "@/components/poster/PosterGrid";
 import { PosterSheet } from "@/components/poster/PosterSheet";
 import { useLocalScores } from "@/hooks/useLocalScores";
@@ -26,6 +30,9 @@ function App() {
   const [clubId, setClubId] = useState(getInitialClubId);
   const [printBlank, setPrintBlank] = useState(true);
   const [viewMode, setViewMode] = useState<"single" | "grid">("single");
+  const [helpView, setHelpView] = useState<"confirm" | "instructions" | null>(
+    null,
+  );
   const { scores, setScore } = useLocalScores(STORAGE_KEY);
 
   const club = ligue1Clubs.find((c) => c.id === clubId);
@@ -70,8 +77,9 @@ function App() {
   }, [clubId]);
 
   return (
-    <div className="bg-[#2e2e2e] flex flex-col items-center min-h-screen p-[22px] font-['Arial_Narrow',Arial,Helvetica,sans-serif] [print-color-adjust:exact] [-webkit-print-color-adjust:exact] print:bg-none print:p-0 print:block print:min-h-0">
-      <AppToolbar
+    <div className="bg-background flex flex-col items-center min-h-screen px-[22px] pb-[22px] pt-20 font-sans [print-color-adjust:exact] [-webkit-print-color-adjust:exact] print:bg-none print:p-0 print:block print:min-h-0">
+      <AppBrandRibbon />
+      <ClubSwitcher
         club={club}
         sortedClubs={sortedClubs}
         onClubChange={setClubId}
@@ -84,6 +92,9 @@ function App() {
         printBlank={printBlank}
         onPrintBlankChange={setPrintBlank}
       />
+      <HelpFab onClick={() => setHelpView("instructions")} />
+      <PrintFab onPrinted={() => setHelpView("confirm")} />
+      <PrintHelpDialog view={helpView} onViewChange={setHelpView} />
 
       {viewMode === "single" ? (
         <PosterSheet
