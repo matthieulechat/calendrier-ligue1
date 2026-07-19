@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Identité visuelle — mix A×C — calendrier-ligue1</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@500;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #0b0b0f;
+        color: #e8e4d8;
+        font-family: "IBM Plex Sans", sans-serif;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+      .subtitle {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+        max-width: 62ch;
+      }
+      .direction {
+        margin-bottom: 3rem;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #1f2937;
+      }
+      .direction-head {
+        padding: 1.25rem 1.5rem;
+        background: #111827;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .direction-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.7rem;
+        color: #6b7280;
+        letter-spacing: 0.1em;
+      }
+      .direction-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #f5f2e8;
+      }
+      .direction-pitch {
+        font-size: 0.8rem;
+        color: #9ca3af;
+        max-width: 44ch;
+      }
+      .palette-row {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid #1f2937;
+      }
+      .swatch {
+        flex: 1;
+        min-width: 90px;
+        height: 64px;
+        display: flex;
+        align-items: flex-end;
+        padding: 0.4rem 0.55rem;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.6rem;
+      }
+      .type-block {
+        padding: 1.5rem;
+        background: #0f1420;
+      }
+      .type-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .type-tag {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.62rem;
+        color: #6b7280;
+        min-width: 6rem;
+      }
+      .mockup {
+        padding: 2rem;
+      }
+      .mockup-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .footer-note {
+        margin-top: 1rem;
+        padding: 1rem 1.25rem;
+        background: #111827;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: #9ca3af;
+        border-left: 3px solid #6e2436;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>calendrier-ligue1 — Mix A × C</h1>
+      <p class="subtitle">
+        3 fusions entre "Feuille de Match" (A — papier, encre, tampon, rigueur
+        tabulaire) et "Fanzine 84" (C — bichromie vin/ocre, ruban, chaleur
+        éditoriale). Même fixture de référence : Le Mans FC – Stade Brestois 29,
+        Journée 1, 22/08/2026.
+      </p>
+    </header>
+
+    <!-- AC1 — CARTON OFFICIEL -->
+    <section class="direction">
+      <div class="direction-head">
+        <div>
+          <div class="direction-label">AC1</div>
+          <div class="direction-title">Carton Officiel</div>
+        </div>
+        <div class="direction-pitch">
+          A dominant : structure, papier écru, tampon, typo Oswald/mono. C
+          apporte juste l'accent vin et le ruban en filigrane.
+        </div>
+      </div>
+      <div class="palette-row">
+        <div class="swatch" style="background: #efeae0; color: #201c18">
+          papier #EFEAE0
+        </div>
+        <div class="swatch" style="background: #201c18; color: #efeae0">
+          encre #201C18
+        </div>
+        <div class="swatch" style="background: #6e2436; color: #efeae0">
+          vin (accent, de C) #6E2436
+        </div>
+        <div class="swatch" style="background: #d89a3e; color: #201c18">
+          ocre (de C) #D89A3E
+        </div>
+        <div class="swatch" style="background: #c43d3d; color: #efeae0">
+          carton rouge (de A) #C43D3D
+        </div>
+      </div>
+      <div class="type-block">
+        <div class="type-row">
+          <span class="type-tag">display / Oswald 700</span>
+          <span
+            style="
+              font-family: &quot;Oswald&quot;;
+              font-weight: 700;
+              font-size: 1.9rem;
+              color: #f5f2e8;
+              letter-spacing: 0.02em;
+            "
+            >LE MANS FC</span
+          >
+        </div>
+        <div class="type-row">
+          <span class="type-tag">body / IBM Plex Sans</span>
+          <span style="font-size: 0.95rem; color: #c9c4b6"
+            >Calendrier imprimable — saison 26/27, journée par journée.</span
+          >
+        </div>
+        <div class="type-row">
+          <span class="type-tag">data / JetBrains Mono</span>
+          <span
+            style="
+              font-family: &quot;JetBrains Mono&quot;;
+              font-size: 0.9rem;
+              color: #9ca3af;
+            "
+            >J01 · 22.08.2026 · 21:00</span
+          >
+        </div>
+      </div>
+      <div
+        class="mockup"
+        style="
+          background: #efeae0;
+          color: #201c18;
+          position: relative;
+          overflow: hidden;
+        "
+      >
+        <div
+          style="
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(#201c18 0.5px, transparent 0.5px);
+            background-size: 7px 7px;
+            opacity: 0.05;
+          "
+        ></div>
+        <div
+          style="
+            position: absolute;
+            top: 12px;
+            right: -40px;
+            background: #6e2436;
+            color: #efeae0;
+            font-family: &quot;IBM Plex Mono&quot;;
+            font-size: 0.58rem;
+            letter-spacing: 0.1em;
+            padding: 0.22rem 3rem;
+            transform: rotate(32deg);
+          "
+        >
+          SAISON 26/27
+        </div>
+        <div
+          style="
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 2px solid #201c18;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <span
+            style="
+              font-family: &quot;Oswald&quot;;
+              font-weight: 700;
+              font-size: 1.4rem;
+              letter-spacing: 0.03em;
+            "
+            >FEUILLE DE MATCH</span
+          >
+          <span
+            style="
+              font-family: &quot;JetBrains Mono&quot;;
+              font-size: 0.7rem;
+              color: #6e2436;
+            "
+            >LIGUE 1</span
+          >
+        </div>
+        <div
+          class="mockup-row"
+          style="
+            position: relative;
+            font-family: &quot;JetBrains Mono&quot;;
+            font-size: 0.85rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed #d89a3e;
+          "
+        >
+          <span>J01 · 22.08</span>
+          <span
+            style="
+              font-family: &quot;Oswald&quot;;
+              font-weight: 600;
+              font-size: 1.05rem;
+              letter-spacing: 0.02em;
+            "
+            >LE MANS FC — BREST</span
+          >
+          <span style="color: #6e2436; font-weight: 700">21:00</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- AC2 — FANZINE REGLEMENTAIRE -->
+    <section class="direction">
+      <div class="direction-head">
+        <div>
+          <div class="direction-label">AC2</div>
+          <div class="direction-title">Fanzine Réglementaire</div>
+        </div>
+        <div class="direction-pitch">
+          C dominant : bichromie journal/vin, Bebas Neue + Fraunces, diagonale
+          et halftone. A apporte la rigueur : lignes de match tabulaires en
+          mono.
+        </div>
+      </div>
+      <div class="palette-row">
+        <div class="swatch" style="background: #ede2c8; color: #221d16">
+          journal #EDE2C8
+        </div>
+        <div class="swatch" style="background: #221d16; color: #ede2c8">
+          encre #221D16
+        </div>
+        <div class="swatch" style="background: #6e2436; color: #ede2c8">
+          vin #6E2436
+        </div>
+        <div class="swatch" style="background: #2f6b4f; color: #ede2c8">
+          pitch (de A) #2F6B4F
+        </div>
+        <div class="swatch" style="background: #e8b930; color: #221d16">
+          carton jaune (de A) #E8B930
+        </div>
+      </div>
+      <div class="type-block">
+        <div class="type-row">
+          <span class="type-tag">display / Bebas Neue</span>
+          <span
+            style="
+              font-family: &quot;Bebas Neue&quot;;
+              font-size: 2.3rem;
+              color: #f5f2e8;
+              letter-spacing: 0.04em;
+            "
+            >LE MANS FC</span
+          >
+        </div>
+        <div class="type-row">
+          <span class="type-tag">body / Fraunces</span>
+          <span
+            style="
+              font-family: &quot;Fraunces&quot;;
+              font-size: 0.95rem;
+              color: #c9c4b6;
+            "
+            >Calendrier imprimable — saison 26/27, journée par journée.</span
+          >
+        </div>
+        <div class="type-row">
+          <span class="type-tag">data / JetBrains Mono</span>
+          <span
+            style="
+              font-family: &quot;JetBrains Mono&quot;;
+              font-size: 0.9rem;
+              color: #9ca3af;
+            "
+            >J01 · 22.08.2026 · 21:00</span
+          >
+        </div>
+      </div>
+      <div
+        class="mockup"
+        style="
+          background: #ede2c8;
+          color: #221d16;
+          position: relative;
+          overflow: hidden;
+        "
+      >
+        <div
+          style="
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(#221d16 0.5px, transparent 0.5px);
+            background-size: 6px 6px;
+            opacity: 0.06;
+          "
+        ></div>
+        <div style="position: relative">
+          <div
+            style="
+              font-family: &quot;Bebas Neue&quot;;
+              font-size: 2.4rem;
+              color: #6e2436;
+              line-height: 0.95;
+              letter-spacing: 0.02em;
+            "
+          >
+            LE MANS FC
+          </div>
+          <div
+            style="
+              font-family: &quot;Fraunces&quot;;
+              font-weight: 600;
+              font-size: 1.05rem;
+              color: #2f6b4f;
+              margin-top: 0.2rem;
+            "
+          >
+            contre Stade Brestois 29
+          </div>
+          <div
+            style="
+              font-family: &quot;JetBrains Mono&quot;;
+              font-size: 0.78rem;
+              color: #221d16;
+              margin-top: 0.75rem;
+              padding: 0.5rem 0;
+              border-top: 1px solid #221d16;
+              border-bottom: 1px solid #221d16;
+              display: flex;
+              justify-content: space-between;
+            "
+          >
+            <span>J01 · 22.08.2026</span>
+            <span style="color: #6e2436; font-weight: 700">21:00</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AC3 — PAPIER CARBONE -->
+    <section class="direction">
+      <div class="direction-head">
+        <div>
+          <div class="direction-label">AC3</div>
+          <div class="direction-title">Papier Carbone</div>
+        </div>
+        <div class="direction-pitch">
+          Fusion 50/50 : nouvelle paire typo Oswald + Fraunces (ni A ni C
+          seuls), palette unifiée papier/vin/ocre, tampon ET ruban superposés —
+          la synthèse la plus "identité propre".
+        </div>
+      </div>
+      <div class="palette-row">
+        <div class="swatch" style="background: #e7dec7; color: #211c16">
+          papier #E7DEC7
+        </div>
+        <div class="swatch" style="background: #211c16; color: #e7dec7">
+          encre #211C16
+        </div>
+        <div class="swatch" style="background: #6e2436; color: #e7dec7">
+          vin #6E2436
+        </div>
+        <div class="swatch" style="background: #2f6b4f; color: #e7dec7">
+          pitch #2F6B4F
+        </div>
+        <div class="swatch" style="background: #d89a3e; color: #211c16">
+          ocre #D89A3E
+        </div>
+      </div>
+      <div class="type-block">
+        <div class="type-row">
+          <span class="type-tag">display / Oswald 700</span>
+          <span
+            style="
+              font-family: &quot;Oswald&quot;;
+              font-weight: 700;
+              font-size: 1.9rem;
+              color: #f5f2e8;
+              letter-spacing: 0.02em;
+            "
+            >LE MANS FC</span
+          >
+        </div>
+        <div class="type-row">
+          <span class="type-tag">body / Fraunces</span>
+          <span
+            style="
+              font-family: &quot;Fraunces&quot;;
+              font-size: 0.95rem;
+              color: #c9c4b6;
+            "
+            >Calendrier imprimable — saison 26/27, journée par journée.</span
+          >
+        </div>
+        <div class="type-row">
+          <span class="type-tag">data / JetBrains Mono</span>
+          <span
+            style="
+              font-family: &quot;JetBrains Mono&quot;;
+              font-size: 0.9rem;
+              color: #9ca3af;
+            "
+            >J01 · 22.08.2026 · 21:00</span
+          >
+        </div>
+      </div>
+      <div
+        class="mockup"
+        style="
+          background: #e7dec7;
+          color: #211c16;
+          position: relative;
+          overflow: hidden;
+        "
+      >
+        <div
+          style="
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(#211c16 0.5px, transparent 0.5px);
+            background-size: 7px 7px;
+            opacity: 0.05;
+          "
+        ></div>
+        <div
+          style="
+            position: absolute;
+            top: 12px;
+            right: -40px;
+            background: #6e2436;
+            color: #e7dec7;
+            font-family: &quot;IBM Plex Mono&quot;;
+            font-size: 0.58rem;
+            letter-spacing: 0.1em;
+            padding: 0.22rem 3rem;
+            transform: rotate(32deg);
+          "
+        >
+          SAISON 26/27
+        </div>
+        <div
+          style="
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 2px solid #211c16;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <span
+            style="
+              font-family: &quot;Oswald&quot;;
+              font-weight: 700;
+              font-size: 1.4rem;
+              letter-spacing: 0.03em;
+            "
+            >LE MANS FC</span
+          >
+          <span
+            style="
+              font-family: &quot;Fraunces&quot;;
+              font-weight: 600;
+              font-size: 0.85rem;
+              color: #2f6b4f;
+            "
+            >Journée 1</span
+          >
+        </div>
+        <div
+          class="mockup-row"
+          style="
+            position: relative;
+            font-family: &quot;JetBrains Mono&quot;;
+            font-size: 0.85rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed #d89a3e;
+          "
+        >
+          <span>22.08.2026</span>
+          <span
+            style="
+              font-family: &quot;Fraunces&quot;;
+              font-weight: 600;
+              font-size: 1.05rem;
+              color: #211c16;
+            "
+            >contre Stade Brestois 29</span
+          >
+          <span style="color: #6e2436; font-weight: 700">21:00</span>
+        </div>
+        <div
+          style="
+            position: absolute;
+            bottom: 16px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border: 2px solid #6e2436;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-8deg);
+            font-family: &quot;IBM Plex Mono&quot;;
+            font-size: 0.5rem;
+            color: #6e2436;
+            text-align: center;
+            line-height: 1.15;
+            opacity: 0.7;
+          "
+        >
+          NON<br />OFFICIEL
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Réponds avec la lettre du mix (ex : "AC3"), ou décris un ajustement. Ces 3
+      mixes coexistent avec le moodboard d'origine
+      (<code>identity-moodboard.html</code>) — rien n'a été supprimé.
+    </div>
+  </body>
+</html>

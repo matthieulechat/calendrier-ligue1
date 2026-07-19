@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logo V2 — accordé au moodboard — calendrier-ligue1</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #07070e;
+        color: #e8e4d8;
+        font-family: "IBM Plex Sans", sans-serif;
+        padding: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+      .subtitle {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+        max-width: 62ch;
+      }
+      .group-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+      }
+      .card {
+        background: #111827;
+        border-radius: 12px;
+        padding: 1.25rem;
+        border: 1px solid #1f2937;
+      }
+      .card-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.7rem;
+        color: #6b7280;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.08em;
+      }
+      .card-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.2rem;
+      }
+      .card-desc {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-bottom: 0.875rem;
+        line-height: 1.4;
+      }
+      .preview-main {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+      }
+      .preview-main svg {
+        width: 160px;
+        height: 160px;
+      }
+      .footer-note {
+        margin-top: 2rem;
+        padding: 1rem 1.25rem;
+        background: #111827;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: #9ca3af;
+        border-left: 3px solid #6e2436;
+        line-height: 1.6;
+      }
+      @media (max-width: 800px) {
+        .group-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>calendrier-ligue1 — Logo V2</h1>
+      <p class="subtitle">
+        Repartis de la structure du logo J (dégradé diagonal + halo radial +
+        icône CalendarDays blanche), recolorée avec les palettes des 3 mix A×C
+        de <code>identity-moodboard-mix-ac.html</code> — pour juger laquelle
+        tient debout à côté du reste de l'identité.
+      </p>
+    </header>
+
+    <div class="group-grid">
+      <div class="card">
+        <div class="card-label">V2 · AC1</div>
+        <div class="card-title">Carton Officiel</div>
+        <div class="card-desc">Vin → encre, structure sobre et sérieuse</div>
+        <div class="preview-main">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <defs>
+              <linearGradient id="gradAC1" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#6e2436" />
+                <stop offset="100%" stop-color="#201c18" />
+              </linearGradient>
+              <radialGradient id="glowAC1" cx="50%" cy="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <rect width="512" height="512" rx="108" fill="url(#gradAC1)" />
+            <rect width="512" height="512" rx="108" fill="url(#glowAC1)" />
+            <g
+              transform="translate(106,106) scale(12.5)"
+              stroke="#efeae0"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            >
+              <path d="M8 2v4" />
+              <path d="M16 2v4" />
+              <rect width="18" height="18" x="3" y="4" rx="2" />
+              <path d="M3 10h18" />
+              <circle cx="8" cy="14" r="0.65" fill="#efeae0" stroke="none" />
+              <circle cx="12" cy="14" r="0.65" fill="#efeae0" stroke="none" />
+              <circle cx="16" cy="14" r="0.65" fill="#efeae0" stroke="none" />
+              <circle cx="8" cy="18" r="0.65" fill="#efeae0" stroke="none" />
+              <circle cx="12" cy="18" r="0.65" fill="#efeae0" stroke="none" />
+              <circle cx="16" cy="18" r="0.65" fill="#efeae0" stroke="none" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">V2 · AC2</div>
+        <div class="card-title">Fanzine Réglementaire</div>
+        <div class="card-desc">Ocre → pitch, plus chaud et vivant</div>
+        <div class="preview-main">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <defs>
+              <linearGradient id="gradAC2" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#d89a3e" />
+                <stop offset="100%" stop-color="#2f6b4f" />
+              </linearGradient>
+              <radialGradient id="glowAC2" cx="50%" cy="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <rect width="512" height="512" rx="108" fill="url(#gradAC2)" />
+            <rect width="512" height="512" rx="108" fill="url(#glowAC2)" />
+            <g
+              transform="translate(106,106) scale(12.5)"
+              stroke="#ede2c8"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            >
+              <path d="M8 2v4" />
+              <path d="M16 2v4" />
+              <rect width="18" height="18" x="3" y="4" rx="2" />
+              <path d="M3 10h18" />
+              <circle cx="8" cy="14" r="0.65" fill="#ede2c8" stroke="none" />
+              <circle cx="12" cy="14" r="0.65" fill="#ede2c8" stroke="none" />
+              <circle cx="16" cy="14" r="0.65" fill="#ede2c8" stroke="none" />
+              <circle cx="8" cy="18" r="0.65" fill="#ede2c8" stroke="none" />
+              <circle cx="12" cy="18" r="0.65" fill="#ede2c8" stroke="none" />
+              <circle cx="16" cy="18" r="0.65" fill="#ede2c8" stroke="none" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">V2 · AC3</div>
+        <div class="card-title">Papier Carbone</div>
+        <div class="card-desc">Ocre → vin, la synthèse des deux</div>
+        <div class="preview-main">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <defs>
+              <linearGradient id="gradAC3" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#d89a3e" />
+                <stop offset="100%" stop-color="#6e2436" />
+              </linearGradient>
+              <radialGradient id="glowAC3" cx="50%" cy="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <rect width="512" height="512" rx="108" fill="url(#gradAC3)" />
+            <rect width="512" height="512" rx="108" fill="url(#glowAC3)" />
+            <g
+              transform="translate(106,106) scale(12.5)"
+              stroke="#e7dec7"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            >
+              <path d="M8 2v4" />
+              <path d="M16 2v4" />
+              <rect width="18" height="18" x="3" y="4" rx="2" />
+              <path d="M3 10h18" />
+              <circle cx="8" cy="14" r="0.65" fill="#e7dec7" stroke="none" />
+              <circle cx="12" cy="14" r="0.65" fill="#e7dec7" stroke="none" />
+              <circle cx="16" cy="14" r="0.65" fill="#e7dec7" stroke="none" />
+              <circle cx="8" cy="18" r="0.65" fill="#e7dec7" stroke="none" />
+              <circle cx="12" cy="18" r="0.65" fill="#e7dec7" stroke="none" />
+              <circle cx="16" cy="18" r="0.65" fill="#e7dec7" stroke="none" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Réponds avec la lettre du mix retenu (ex : "AC3") et confirme la
+      combinaison logo + identité — les fichiers d'origine
+      (<code>logo-creation.html</code>, <code>identity-moodboard.html</code>)
+      restent inchangés.
+    </div>
+  </body>
+</html>

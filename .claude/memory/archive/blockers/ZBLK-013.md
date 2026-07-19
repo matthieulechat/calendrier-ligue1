@@ -1,11 +1,11 @@
 ---
-id: BLK-013
+id: ZBLK-013
 type: blocker
 date: 2026-07-18
 tags: [env-vars, secrets, dotenv, security, git, api-key-setup]
 ---
 
-# BLK-013 — Clé API réelle collée dans `.env.example` au lieu de `.env.local`
+# ZBLK-013 — Clé API réelle collée dans `.env.example` au lieu de `.env.local`
 
 | Friction                                                                                                                                                                                                                        | Cause réelle                                                                                                                                                                                                                               | Solution                                                                                                                                   | Statut |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
@@ -13,4 +13,4 @@ tags: [env-vars, secrets, dotenv, security, git, api-key-setup]
 
 ## Références
 
-- [LRN-021](../learnings/LRN-021.md) — pattern extrait de ce blocage
+- [LRN-021](../../learnings/LRN-021.md) — pattern extrait de ce blocage

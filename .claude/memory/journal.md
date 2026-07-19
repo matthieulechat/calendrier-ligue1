@@ -167,7 +167,7 @@ Clôture de la tâche 1.1 et démarrage de la Phase 6 : `scripts/sync-matches.ts
 - [BDR-004](decisions/BDR-004.md) — Pivot API-Football → football-data.org
 - [BDR-012](decisions/BDR-012.md) — `sync-matches.ts` : mapping inline, garde anti-null, scope manuel
 - [LRN-019](learnings/LRN-019.md) — Spike doc-only ≠ spike validé
-- [BLK-013](blockers/BLK-013.md) — Clé API dans `.env.example` au lieu de `.env.local` (résolu)
+- [ZBLK-013](archive/blockers/ZBLK-013.md) — Clé API dans `.env.example` au lieu de `.env.local` (résolu)
 
 ---
 
@@ -179,7 +179,67 @@ Deux incidents distincts pendant l'activation PM2. D'abord technique : `pm2 star
 
 **Entrées clés :**
 
-- [BLK-014](blockers/BLK-014.md) — PM2 boucle en restart infini sur script one-shot (résolu)
-- [BLK-015](blockers/BLK-015.md) — Commits git répétés sans autorisation explicite (résolu)
-- [BLK-016](blockers/BLK-016.md) — `git reset --hard` a effacé une consolidation mémoire non commitée (résolu)
+- [ZBLK-014](archive/blockers/ZBLK-014.md) — PM2 boucle en restart infini sur script one-shot (résolu)
+- [ZBLK-015](archive/blockers/ZBLK-015.md) — Commits git répétés sans autorisation explicite (résolu)
+- [ZBLK-016](archive/blockers/ZBLK-016.md) — `git reset --hard` a effacé une consolidation mémoire non commitée (résolu)
 - [BDR-013](decisions/BDR-013.md) — Deploy key GitHub plutôt que PAT fine-grained pour le push cron Pi
+
+## 2026-07-18
+
+Démarrage de la Phase 7 (mise en public). Avant de commencer, clarification du statut de [BLK-001](blockers/BLK-001.md) (licences logos non résolues) : Baptiste choisit d'accepter le risque légal et de procéder quand même, plutôt que d'attendre une autorisation ou de retirer les logos officiels ([BDR-014](decisions/BDR-014.md)). Deux items techniques implémentés sans incident : disclaimer "Application non officielle" (fusionné sur la ligne du timestamp dans `PosterFooter` pour ne pas ajouter de hauteur) et partage d'affiche via URL paramétrique (`?club=...`, lecture au montage + `history.replaceState` à la navigation).
+
+Le reste de la session a été consommé par un débordement d'impression A4 signalé par Baptiste juste après l'ajout du disclaimer, avec un fil de diagnostic particulièrement chaotique : plusieurs allers-retours sur des fausses pistes (mesure `scrollHeight` trompeuse à cause du clamp `min-height`, sur-correction d'espacement cassant le rendu puis annulée, hypothèse "marges Chrome par défaut" écartée empiriquement par Baptiste lui-même) avant d'isoler la vraie cause : le contenu dépassait réellement 297mm de ~2mm avec les vraies données de saison (306 matchs, jamais retestées à l'impression depuis leur intégration le 2026-07-18), combiné à une fragmentation visuelle du footer à la limite de page et à un `flex-1` resté sans effet faute de parent `display:flex`. Fix final validé par Baptiste en conditions d'impression réelles : `break-inside-avoid` + restructuration `flex flex-col` de `PosterSheet` + resserrement modéré de `MatchRow`. Trois patterns CSS génériques extraits en learnings, potentiellement réutilisables hors de ce projet.
+
+**Entrées clés :**
+
+- [BDR-014](decisions/BDR-014.md) — Accepter le risque légal logos, procéder à la Phase 7
+- [ZBLK-017](archive/blockers/ZBLK-017.md) — Débordement impression A4 après vraies données de saison (résolu)
+
+## 2026-07-19
+
+Session d'identité visuelle complète : `/logo-creator` a produit un premier moodboard de 15 logos (`docs/design/logo-creation.html`, palette de fallback faute de couleurs de marque définies). Baptiste a orienté vers J (Aurora) mais demandé de d'abord établir une vraie identité couleur/typo pour l'app — enchaînement `/frontend-design` (`identity-moodboard.html`, 4 directions A/B/C/D), puis mix A×C à sa demande (`identity-moodboard-mix-ac.html`, AC1/AC2/AC3), puis relance complète des 15 logos avec la vraie palette AC1 (`logo-creation-v3.html`). Choix final : direction **AC1 "Carton Officiel"** (vin/papier/ocre/encre + Oswald/IBM Plex Sans/Mono) et logo K (grille de feuille de match, filigrane accentué sur demande).
+
+Export du logo en `public/icon.svg` et mise en place complète de la PWA (`vite-plugin-pwa` + `@vite-pwa/assets-generator`, absents du projet) — deux blocages techniques successifs : `sharp` en version imbriquée différente plantait sur Windows (`ERR_DLOPEN_FAILED`), corrigé via `pnpm.overrides` ; puis trois défauts visuels remontés par Baptiste sur les assets générés (fond blanc apple-touch-icon, filigrane tronqué en bordure maskable, marge visible sur les icônes pwa-\*), tous deux causés par les paddings/fonds par défaut différents et non documentés de `minimalPreset` selon le type de preset — corrigé en configurant `pwa-assets.config.ts` explicitement pour chaque preset. Patterns extraits en mémoire globale (2 learnings dédiés à cette lib, complétant GLRN-171/173).
+
+Application de l'identité AC1 au chrome de l'app : premier passage (recolorage complet des CSS vars shadcn + polices) sans aucun effet visible signalé par Baptiste — diagnostic via agent Explore : les composants métier (`App.tsx`, `AppToolbar.tsx`) utilisaient des couleurs Tailwind codées en dur, jamais les classes sémantiques shadcn. Corrigé, puis Baptiste a demandé un revert du rendu de l'affiche (gardée dans son style d'origine, seule la typo est désormais partagée avec l'app) et une refonte structurelle du chrome bien plus ambitieuse que le recolorage initial : ruban diagonal de marque, menu club centré en pilule, gros bandeau d'instructions d'impression remplacé par un `Dialog` shadcn à deux vues (confirmation post-impression / instructions à la demande), bouton d'impression en FAB. Passage en mode plan pour cadrer cette restructuration (2 questions de clarification, exploration codebase, plan validé), implémentée en 4 nouveaux composants + suppression de l'ancien `AppToolbar.tsx` + ajout du composant shadcn `dialog`. Itération finale sur le pattern FAB : extraction d'une vraie variante `size="fab"` dans `buttonVariants` (au lieu de `className` dupliqué) puis réduction de sa taille suite à un retour "trop gros".
+
+**Entrées clés :**
+
+- [BDR-015](decisions/BDR-015.md) — Identité visuelle app retenue : AC1 "Carton Officiel"
+- [BDR-016](decisions/BDR-016.md) — Scope AC1 : chrome app uniquement, affiche garde couleurs club + typo seule
+- [ZBLK-018](archive/blockers/ZBLK-018.md) — Recolorage CSS vars invisible, composants métier hardcodés (résolu)
+- [ZBLK-019](archive/blockers/ZBLK-019.md) — `sharp` DLOPEN_FAILED après ajout de `@vite-pwa/assets-generator` (résolu)
+- [ZBLK-020](archive/blockers/ZBLK-020.md) — Assets PWA générés avec défauts visuels par preset (résolu)
+
+---
+
+Session de maintenance des assets logos, déclenchée par un signalement visuel de Baptiste (logo OM manifestement pas à jour). Recherche a confirmé que le repo source `luukhopman/football-logos` (cf. [BDR-003](decisions/BDR-003.md)) n'avait lui-même pas été mis à jour depuis le rebrand officiel de l'OM (8 avril 2026, effectif saison 2026-27) — retéléchargement identique par `cmp`. Nouveau blason récupéré sur Wikimedia Commons (fichier daté `Logo_Olympique_de_Marseille_avec_étoile_(2026).svg`, trouvé via recherche Commons plutôt que devinette de nom de fichier), converti en PNG transparent via `sharp` (déjà une dépendance du projet) et vérifié en direct dans l'app.
+
+La régénération des couleurs de club (`colorthief`, cf. [BDR-006](decisions/BDR-006.md)) a ensuite fait ressortir un problème de lisibilité propre à l'OM : logo mono-teinte bleu sur un fond `--club-secondary` extrait de ce même logo, quasi invisible dans le header. `MatchRow.tsx` appliquait déjà une pastille blanche derrière les logos adverses — traitement repris pour le logo du header, d'abord de façon universelle (tous les clubs), puis recadré à la demande de Baptiste : flag data-driven `Club.logoNeedsBackdrop` posé uniquement sur l'entrée `marseille`, lu dans `PosterHeader.tsx` **et** `PosterFooter.tsx` (même logo affiché une 2e fois en bas de l'affiche, repéré par grep). Décision consignée avec l'heuristique générale qui en découle : flag manuel sur la donnée plutôt que calcul de contraste généralisé tant qu'un seul cas est connu.
+
+Dernier signalement de Baptiste (comparaison Toulouse/PSG/Lille) : rendu incohérent d'un club à l'autre dû à une marge transparente variable autour de chaque blason dans les PNG source (repo luukhopman, canevas fixe 139×181 mais dessin plus ou moins centré selon le club). Nouveau script `scripts/trim-logos.ts` (`pnpm trim-logos`) appliqué en batch aux 17 PNG via `sharp().trim()` — chaque logo garde son propre ratio après rognage, `object-contain` absorbe la différence. Vérifié sur la vue grille complète des 18 clubs.
+
+Anomalie repérée en cours de session sans lien avec les tâches demandées : `marseille.png` était revenu à une variante ronde simple (sans étoile ni texte) entre deux tours de conversation, sans action tracée de ma part. Signalée à Baptiste par précaution — confirmée en fin de session comme un remplacement volontaire de sa part (son propre logo), pas une régression.
+
+**Entrées clés :**
+
+- [LRN-025](learnings/LRN-025.md) — Repo luukhopman non mis à jour après rebrand ; Commons daté fait référence
+- [LRN-026](learnings/LRN-026.md) — Logo mono-teinte sur fond extrait de lui-même = risque contraste
+- [BDR-017](decisions/BDR-017.md) — Lisibilité logo : flag `logoNeedsBackdrop`, pas de traitement universel
+- [LRN-027](learnings/LRN-027.md) — Marge transparente inégale entre logos → `sharp().trim()` en batch
+- [LRN-028](learnings/LRN-028.md) — Lisibilité connue sur une seule instance → flag manuel, pas de calcul généralisé
+
+---
+
+Session de mise en place du mode PWA installable. Portage quasi à l'identique du hook `useInstallPrompt` et du pattern install (Android via `beforeinstallprompt`, iOS via hint manuel, guard standalone) depuis le projet `ifecho`, adapté en `InstallFab.tsx` pour matcher le style FAB existant du projet plutôt que le bouton pilule d'ifecho. Ajout en parallèle d'un `AppLogo.tsx` (logo + nom de l'app en haut à gauche, symétrique du ruban `AppBrandRibbon` en haut à droite). Vérifié via `agent-browser` en simulant l'event `beforeinstallprompt`.
+
+Deux retours de Baptiste sur ce premier jet. D'abord esthétique : le nom de l'app a été déplacé à côté du logo, et le ruban diagonal (qui répétait le nom) a été changé pour rappeler que l'app est non officielle. Ensuite fonctionnel : Baptiste ne voyait aucun élément PWA en conditions réelles — diagnostiqué comme un faux problème de code, `vite-plugin-pwa` n'enregistrant simplement pas de service worker en `pnpm dev` (cf. [BLK-008](blockers/BLK-008.md)) ; confirmé en testant via `pnpm build && pnpm preview`, où le SW s'active et le FAB apparaît spontanément sans event simulé.
+
+Dernier signalement de la session : le menu `ClubSwitcher` (pilule centrée) wrappait sur 2 lignes à largeur réduite, rendu cassé visuellement. Demande explicite de Baptiste : à largeur réduite, ne garder que la navigation club (précédent/select/suivant), retirer le bouton "Vue tous les clubs" et forcer l'impression avec scores plutôt que de laisser le switch wrapper. Implémenté via un nouveau hook `useMediaQuery` (matchMedia natif) : masquage CSS des contrôles secondaires sous `lg` (1024px) et forçage des valeurs _effectives_ de rendu (vue single, impression avec scores) sans écraser l'état React sous-jacent (cf. [BDR-019](decisions/BDR-019.md)). Le seuil de wrap a été mesuré empiriquement par bisection via `agent-browser`, révélant un écart net entre la valeur headless (~768px) et le seuil réel signalé par Baptiste (~910px) — écart attribué au chargement des fonts custom/zoom système, d'où le choix d'un breakpoint standard avec marge de sécurité plutôt que la valeur mesurée exacte (cf. [LRN-029](learnings/LRN-029.md)).
+
+**Entrées clés :**
+
+- [BDR-018](decisions/BDR-018.md) — Installation PWA : réutilisation du hook ifecho
+- [BLK-008](blockers/BLK-008.md) — Bouton install PWA invisible en `pnpm dev` (résolu)
+- [BDR-019](decisions/BDR-019.md) — ClubSwitcher `<1024px` : masquage CSS + valeurs forcées
+- [LRN-029](learnings/LRN-029.md) — Seuil de wrap headless ≠ seuil réel navigateur
