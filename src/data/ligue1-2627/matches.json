@@ -5,8 +5,8 @@
     "domicile": "marseille",
     "exterieur": "strasbourg",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 4,
+      "exterieur": 0
     }
   },
   {
@@ -15,8 +15,8 @@
     "domicile": "lens",
     "exterieur": "auxerre",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 5,
+      "exterieur": 2
     }
   },
   {
@@ -25,8 +25,8 @@
     "domicile": "lemans",
     "exterieur": "brest",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 2,
+      "exterieur": 2
     }
   },
   {
@@ -35,8 +35,8 @@
     "domicile": "troyes",
     "exterieur": "parisfc",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 0
     }
   },
   {
@@ -45,8 +45,8 @@
     "domicile": "nice",
     "exterieur": "lorient",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 0
     }
   },
   {
@@ -55,8 +55,8 @@
     "domicile": "toulouse",
     "exterieur": "lyon",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 2
     }
   },
   {
@@ -65,8 +65,8 @@
     "domicile": "angers",
     "exterieur": "lille",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 2
     }
   },
   {
@@ -75,8 +75,8 @@
     "domicile": "lehavre",
     "exterieur": "monaco",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 1
     }
   },
   {
@@ -85,8 +85,8 @@
     "domicile": "psg",
     "exterieur": "rennes",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 2,
+      "exterieur": 2
     }
   },
   {
@@ -181,9 +181,9 @@
   },
   {
     "journee": 3,
-    "date": "2026-09-05",
-    "domicile": "lehavre",
-    "exterieur": "brest",
+    "date": "2026-09-03",
+    "domicile": "toulouse",
+    "exterieur": "lille",
     "score": {
       "domicile": null,
       "exterieur": null
@@ -191,9 +191,19 @@
   },
   {
     "journee": 3,
-    "date": "2026-09-05",
-    "domicile": "marseille",
-    "exterieur": "parisfc",
+    "date": "2026-09-04",
+    "domicile": "lyon",
+    "exterieur": "auxerre",
+    "score": {
+      "domicile": null,
+      "exterieur": null
+    }
+  },
+  {
+    "journee": 3,
+    "date": "2026-09-04",
+    "domicile": "psg",
+    "exterieur": "monaco",
     "score": {
       "domicile": null,
       "exterieur": null
@@ -212,48 +222,8 @@
   {
     "journee": 3,
     "date": "2026-09-05",
-    "domicile": "toulouse",
-    "exterieur": "lille",
-    "score": {
-      "domicile": null,
-      "exterieur": null
-    }
-  },
-  {
-    "journee": 3,
-    "date": "2026-09-05",
-    "domicile": "psg",
-    "exterieur": "monaco",
-    "score": {
-      "domicile": null,
-      "exterieur": null
-    }
-  },
-  {
-    "journee": 3,
-    "date": "2026-09-05",
-    "domicile": "angers",
-    "exterieur": "rennes",
-    "score": {
-      "domicile": null,
-      "exterieur": null
-    }
-  },
-  {
-    "journee": 3,
-    "date": "2026-09-05",
-    "domicile": "lyon",
-    "exterieur": "auxerre",
-    "score": {
-      "domicile": null,
-      "exterieur": null
-    }
-  },
-  {
-    "journee": 3,
-    "date": "2026-09-05",
-    "domicile": "troyes",
-    "exterieur": "strasbourg",
+    "domicile": "lehavre",
+    "exterieur": "brest",
     "score": {
       "domicile": null,
       "exterieur": null
@@ -264,6 +234,36 @@
     "date": "2026-09-05",
     "domicile": "nice",
     "exterieur": "lemans",
+    "score": {
+      "domicile": null,
+      "exterieur": null
+    }
+  },
+  {
+    "journee": 3,
+    "date": "2026-09-06",
+    "domicile": "troyes",
+    "exterieur": "strasbourg",
+    "score": {
+      "domicile": null,
+      "exterieur": null
+    }
+  },
+  {
+    "journee": 3,
+    "date": "2026-09-06",
+    "domicile": "angers",
+    "exterieur": "rennes",
+    "score": {
+      "domicile": null,
+      "exterieur": null
+    }
+  },
+  {
+    "journee": 3,
+    "date": "2026-09-06",
+    "domicile": "marseille",
+    "exterieur": "parisfc",
     "score": {
       "domicile": null,
       "exterieur": null
