@@ -635,8 +635,8 @@
     "domicile": "brest",
     "exterieur": "nice",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 1,
+      "exterieur": 2
     }
   },
   {
@@ -645,8 +645,8 @@
     "domicile": "lens",
     "exterieur": "parisfc",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 2,
+      "exterieur": 1
     }
   },
   {
@@ -711,7 +711,7 @@
   },
   {
     "journee": 8,
-    "date": "2026-10-25",
+    "date": "2026-10-26",
     "domicile": "psg",
     "exterieur": "lyon",
     "score": {
