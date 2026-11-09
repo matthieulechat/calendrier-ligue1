@@ -805,8 +805,8 @@
     "domicile": "lorient",
     "exterieur": "brest",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 2
     }
   },
   {
@@ -815,8 +815,8 @@
     "domicile": "toulouse",
     "exterieur": "strasbourg",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 3,
+      "exterieur": 1
     }
   },
   {
@@ -825,8 +825,8 @@
     "domicile": "auxerre",
     "exterieur": "parisfc",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 1
     }
   },
   {
@@ -835,8 +835,8 @@
     "domicile": "psg",
     "exterieur": "troyes",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 1,
+      "exterieur": 0
     }
   },
   {
@@ -845,8 +845,8 @@
     "domicile": "rennes",
     "exterieur": "lille",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 1,
+      "exterieur": 2
     }
   },
   {
@@ -855,8 +855,8 @@
     "domicile": "lemans",
     "exterieur": "monaco",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 1,
+      "exterieur": 1
     }
   },
   {
@@ -865,8 +865,8 @@
     "domicile": "brest",
     "exterieur": "lyon",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 2,
+      "exterieur": 0
     }
   },
   {
@@ -875,8 +875,8 @@
     "domicile": "lehavre",
     "exterieur": "lorient",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 2
     }
   },
   {
@@ -885,8 +885,8 @@
     "domicile": "angers",
     "exterieur": "nice",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 0,
+      "exterieur": 2
     }
   },
   {
@@ -895,8 +895,8 @@
     "domicile": "lens",
     "exterieur": "marseille",
     "score": {
-      "domicile": null,
-      "exterieur": null
+      "domicile": 1,
+      "exterieur": 2
     }
   },
   {
